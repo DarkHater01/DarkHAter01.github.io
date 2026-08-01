@@ -1,390 +1,1777 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hermes David Garcia Matos - Terminal Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #121212;
-            --accent-primary: #00ff9d;
-            --accent-secondary: #00b8ff;
-            --accent-tertiary: #ff00c8;
-            --text-primary: #00ff9d;
-            --text-secondary: #cccccc;
-            --text-command: #ffffff;
-            --node-bg: #1a1a1a;
-            --node-border: #00ff9d;
-            --glow-color: rgba(0, 255, 157, 0.3);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-        }
-        
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        
-        .terminal-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-        
-        .terminal-header {
-            border-bottom: 1px solid var(--accent-primary);
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .terminal-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px var(--glow-color);
-        }
-        
-        .terminal-subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        
-        .terminal-body {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-            min-height: 70vh;
-        }
-        
-        .terminal-sidebar {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--accent-primary);
-            border-radius: 5px;
-            padding: 1.5rem;
-            box-shadow: 0 0 15px var(--glow-color);
-        }
-        
-        .terminal-main {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--accent-primary);
-            border-radius: 5px;
-            padding: 1.5rem;
-            box-shadow: 0 0 15px var(--glow-color);
-            overflow: hidden;
-        }
-        
-        .command-line {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .command-prompt {
-            color: var(--accent-primary);
-            margin-right: 10px;
-            font-weight: bold;
-        }
-        
-        .command-input {
-            background: transparent;
-            border: none;
-            color: var(--text-command);
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            width: 100%;
-            outline: none;
-            caret-color: var(--accent-primary);
-        }
-        
-        .output-container {
-            height: 400px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-        
-        .output-line {
-            margin-bottom: 0.8rem;
-            animation: typewriter 0.5s ease-in-out;
-        }
-        
-        @keyframes typewriter {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .cmd-user {
-            color: var(--accent-primary);
-        }
-        
-        .cmd-dir {
-            color: var(--accent-secondary);
-        }
-        
-        .cmd-success {
-            color: var(--accent-primary);
-        }
-        
-        .cmd-error {
-            color: var(--accent-tertiary);
-        }
-        
-        .sidebar-section {
-            margin-bottom: 2rem;
-        }
-        
-        .sidebar-title {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--accent-primary);
-            border-bottom: 1px solid var(--accent-primary);
-            padding-bottom: 0.5rem;
-        }
-        
-        .sidebar-item {
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .sidebar-icon {
-            width: 20px;
-            margin-right: 10px;
-            color: var(--accent-primary);
-        }
-        
-        .sidebar-text {
-            color: var(--text-secondary);
-        }
-        
-        .tech-pill {
-            display: inline-block;
-            background-color: rgba(0, 255, 157, 0.2);
-            color: var(--accent-primary);
-            padding: 0.3rem 0.6rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .project-item {
-            background-color: var(--node-bg);
-            border: 1px solid var(--node-border);
-            border-radius: 5px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .project-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 0 10px var(--glow-color);
-        }
-        
-        .project-title {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-primary);
-        }
-        
-        .project-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.8rem;
-        }
-        
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 16px;
-            background-color: var(--accent-primary);
-            animation: blink 1s infinite;
-            margin-left: 2px;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        @media (max-width: 900px) {
-            .terminal-body {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes David García Matos — Especialista de Ciberseguridad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;800;900&display=swap'>
+
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg-elevated: #141414;
+  --text: #ffffff;
+  --text-soft: #b8b8b8;
+  --text-mute: #6e6e6e;
+  --accent: #ff6b1a;
+  --accent-soft: rgba(255,107,26,0.2);
+  --accent-dim: rgba(255,107,26,0.06);
+  --line: rgba(255,255,255,0.10);
+  --line-soft: rgba(255,255,255,0.06);
+  --line-strong: rgba(255,255,255,0.18);
+  --ease-quiet: cubic-bezier(.22, 1, .36, 1);
+  --ease-precise: cubic-bezier(.4, 0, .2, 1);
+  --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+body { -webkit-font-smoothing: antialiased; }
+
+@media (hover: hover) and (pointer: fine) {
+  body, a, button, .btn, [data-cursor-hover] { cursor: none; }
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Fluid shader background */
+#fluid-root {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+}
+
+#custom-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  transition: width .3s var(--ease-quiet), height .3s var(--ease-quiet), opacity .3s var(--ease-quiet);
+}
+
+@media (pointer: coarse), (hover: none) {
+  #custom-cursor { display: none !important; }
+}
+
+/* === NAV === */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  background: rgba(10,10,10,0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.nav .brand { color: var(--text); font-weight: 700; }
+.nav .brand span { color: var(--accent); margin: 0 6px; }
+.nav .meta { display: flex; gap: 28px; color: var(--text-soft); }
+.nav .meta .live::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 8px;
+  vertical-align: middle;
+  box-shadow: 0 0 10px var(--accent);
+  animation: pulse 2.4s var(--ease-quiet) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (max-width: 768px) {
+  .nav .meta { display: none; }
+  .nav { padding: 14px 20px; }
+}
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  padding: 130px 32px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 60px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.hero-top .col { display: flex; flex-direction: column; gap: 4px; }
+.hero-top .col span:first-child { color: var(--text-mute); }
+.hero-top .col span:last-child { color: var(--text); }
+.hero-top .col.right { text-align: right; }
+
+.hero-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1400px;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 36px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: clamp(48px, 9.2vw, 152px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin-bottom: 36px;
+  color: var(--text);
+}
+
+.hero-title .accent { color: var(--accent); }
+.hero-title .line { display: block; }
+
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.5;
+  color: var(--text-soft);
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+
+.hero-sub strong { color: var(--text); font-weight: 700; }
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 30px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  transition: all .4s var(--ease-quiet);
+  position: relative;
+  overflow: hidden;
+  font-weight: 700;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform .45s var(--ease-quiet);
+  z-index: -1;
+}
+
+.btn:hover::before { transform: translateX(0); }
+.btn:hover { border-color: var(--accent); color: #0a0a0a; }
+
+.btn.primary {
+  background: var(--accent);
+  color: #0a0a0a;
+  border-color: var(--accent);
+}
+
+.btn.primary::before { background: #fff; }
+.btn.primary:hover { color: #0a0a0a; border-color: #fff; }
+
+.btn .arrow { font-size: 14px; line-height: 1; }
+
+.hero-bottom {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  margin-top: 60px;
+}
+
+.metric {
+  padding: 12px 24px 12px 0;
+  border-right: 1px solid var(--line);
+}
+
+.metric:last-child { border-right: none; padding-right: 0; }
+
+.metric .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 10px;
+}
+
+.metric .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.metric .value .unit {
+  font-size: 11px;
+  color: var(--accent);
+  margin-left: 4px;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .hero-bottom { grid-template-columns: repeat(2, 1fr); }
+  .metric:nth-child(2) { border-right: none; }
+  .metric { padding: 12px 12px; border-bottom: 1px solid var(--line); }
+  .metric:nth-child(3), .metric:nth-child(4) { border-bottom: none; }
+  .hero-top { flex-direction: column; gap: 16px; }
+  .hero-top .col.right { text-align: left; }
+}
+
+/* === SECTION COMMON === */
+section { position: relative; padding: 120px 32px; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.section-label::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--accent);
+}
+
+.section-label .num {
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+}
+
+.section-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: clamp(36px, 5.2vw, 76px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 60px;
+  max-width: 900px;
+}
+
+.section-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* === MANIFESTO === */
+.manifesto { max-width: 1400px; margin: 0 auto; }
+
+.manifesto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.manifesto-grid .left {
+  position: sticky;
+  top: 120px;
+}
+
+.manifesto-grid .right {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.45;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+#manifesto-text .word {
+  display: inline-block;
+  opacity: 0.18;
+  filter: blur(8px);
+  will-change: filter, opacity;
+}
+
+#manifesto-text em .word { color: var(--accent); font-style: normal; }
+
+.manifesto-meta {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 28px;
+}
+
+.manifesto-meta .item .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 8px;
+}
+
+.manifesto-meta .item .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
+  .manifesto-grid .left { position: static; }
+}
+
+/* === CAPABILITIES === */
+.capabilities {
+  padding: 120px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.cap-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.cap-left .section-title { margin-bottom: 28px; }
+
+.cap-left .desc {
+  font-size: 15px;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+
+.cap-list {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.cap-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  transition: padding .45s var(--ease-quiet);
+}
+
+.cap-list li::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: var(--accent);
+  transition: height .6s var(--ease-quiet);
+}
+
+.cap-list li:hover::before { height: 100%; }
+.cap-list li:hover { padding-left: 16px; }
+
+.cap-list .name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition: color .4s var(--ease-quiet);
+  font-weight: 700;
+}
+
+.cap-list li:hover .name { color: var(--accent); }
+
+.cap-list .meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+}
+
+.ring-stage {
+  perspective: 1100px;
+  perspective-origin: 50% 50%;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ring {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.ring-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.ring-item span {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 36px);
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+  will-change: transform, filter;
+  white-space: nowrap;
+}
+
+.ring-item:nth-child(odd) span { color: var(--accent); }
+
+.ring-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.ring-center .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  letter-spacing: 0.3em;
+  font-weight: 700;
+}
+
+.ring-center .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .cap-grid { grid-template-columns: 1fr; gap: 0; }
+  .cap-left { position: static; height: auto; padding: 0; }
+  .ring-stage { height: 70vh; position: relative; }
+  .ring-item span { font-size: 22px; }
+}
+
+/* === OPERATIONS === */
+.operations {
+  padding: 120px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.op-entry {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  padding: 80px 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+
+.op-entry:last-child { border-bottom: 1px solid var(--line); }
+
+.op-left {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.op-index {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  font-weight: 700;
+}
+
+.op-role {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.op-company {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text-soft);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.op-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-soft);
+  margin-top: 8px;
+}
+
+.op-meta .item .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 6px;
+}
+
+.op-meta .item .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.op-right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.op-brief {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line-soft);
+  font-weight: 500;
+}
+
+.op-brief strong { color: var(--accent); font-weight: 700; }
+
+.op-list {
+  list-style: none;
+}
+
+.op-list li {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+  transition: padding .45s var(--ease-quiet);
+}
+
+.op-list li::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: var(--accent);
+  transition: height .6s var(--ease-quiet);
+}
+
+.op-list li:hover::before { height: 100%; }
+.op-list li:hover { padding-left: 16px; }
+
+.op-list .tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  padding-top: 5px;
+  font-weight: 700;
+}
+
+.op-list .text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  transition: color .4s var(--ease-quiet);
+}
+
+.op-list li:hover .text { color: var(--text); }
+.op-list .text strong { color: var(--text); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .op-entry { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
+  .op-left { position: static; }
+  .op-list li { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* === CREDENTIALS === */
+.credentials {
+  padding: 120px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.cred-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.cred-cell {
+  padding: 48px 32px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  transition: background .4s var(--ease-quiet);
+}
+
+.cred-cell:last-child { border-right: none; }
+
+.cred-cell:hover { background: var(--accent-dim); }
+
+.cred-cell .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  font-weight: 700;
+}
+
+.cred-cell .value {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.cred-cell .sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-soft);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.cred-cell .year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-mute);
+  letter-spacing: 0.2em;
+}
+
+.cred-cell .year strong { color: var(--accent); font-weight: 700; }
+
+@media (max-width: 900px) {
+  .cred-grid { grid-template-columns: 1fr; }
+  .cred-cell { border-right: none; border-bottom: 1px solid var(--line); }
+  .cred-cell:last-child { border-bottom: none; }
+}
+
+/* === STACK === */
+.stack {
+  padding: 0 32px 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stack-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.stack-head .desc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.stack-cell {
+  padding: 22px 24px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  transition: background .3s var(--ease-quiet);
+  overflow: hidden;
+}
+
+.stack-cell::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
+  background: var(--accent);
+  transition: width .4s var(--ease-quiet);
+}
+
+.stack-cell:hover::after { width: 100%; }
+.stack-cell:hover { background: var(--accent-dim); }
+
+.stack-cell:nth-child(4n) { border-right: none; }
+
+.stack-cell .cat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 10px;
+}
+
+.stack-cell .name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 900px) {
+  .stack-grid { grid-template-columns: repeat(2, 1fr); }
+  .stack-cell:nth-child(4n) { border-right: 1px solid var(--line); }
+  .stack-cell:nth-child(2n) { border-right: none; }
+}
+
+/* === CONTACT === */
+.contact {
+  padding: 160px 32px 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contact-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 700;
+}
+
+.contact-eyebrow::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--accent);
+}
+
+.contact-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: clamp(48px, 8vw, 132px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin-bottom: 72px;
+}
+
+.contact-title .accent { color: var(--accent); }
+.contact-title .line { display: block; }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  border-top: 1px solid var(--line);
+  padding-top: 60px;
+}
+
+.contact-channels {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-channel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  transition: padding .45s var(--ease-quiet);
+}
+
+.contact-channel::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 0;
+  width: 2px;
+  height: 0;
+  background: var(--accent);
+  transition: height .6s var(--ease-quiet);
+}
+
+.contact-channel:hover::before { height: 100%; }
+.contact-channel:hover { padding-left: 16px; }
+
+.contact-channel .left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-channel .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  transition: color .4s var(--ease-quiet);
+}
+
+.contact-channel:hover .label { color: var(--accent); }
+
+.contact-channel .value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.contact-channel .arrow {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-mute);
+  font-size: 20px;
+  transition: color .4s var(--ease-quiet), transform .4s var(--ease-quiet);
+}
+
+.contact-channel:hover .arrow {
+  color: var(--accent);
+  transform: translateX(8px);
+}
+
+.contact-side {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.contact-side .info-block .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.contact-side .info-block .value {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.contact-side .info-block .value strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* === FOOTER === */
+footer {
+  padding: 60px 32px 32px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+footer .left {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+footer .left .name { color: var(--text); margin-bottom: 6px; font-weight: 700; }
+
+footer .right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  text-align: right;
+}
+
+footer .right .ver { color: var(--accent); font-weight: 700; }
+
+@media (max-width: 600px) {
+  footer { flex-direction: column; align-items: flex-start; }
+  footer .right { text-align: left; }
+}
+
+/* === HERO REVEAL === */
+.hero .reveal-stagger {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .9s var(--ease-quiet), transform .9s var(--ease-quiet);
+}
+
+.hero.in .reveal-stagger { opacity: 1; transform: translateY(0); }
+.hero.in .reveal-stagger:nth-child(1) { transition-delay: 0ms; }
+.hero.in .reveal-stagger:nth-child(2) { transition-delay: 180ms; }
+.hero.in .reveal-stagger:nth-child(3) { transition-delay: 360ms; }
+.hero.in .reveal-stagger:nth-child(4) { transition-delay: 540ms; }
+
+.hero .hero-top, .hero .hero-bottom {
+  opacity: 0;
+  transition: opacity 1s var(--ease-quiet);
+}
+
+.hero.in .hero-top { opacity: 1; transition-delay: 0ms; }
+.hero.in .hero-bottom { opacity: 1; transition-delay: 720ms; }
+
+/* === REVEAL === */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s var(--ease-quiet), transform 1s var(--ease-quiet);
+}
+
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .reveal, .hero .reveal-stagger, .hero .hero-top, .hero .hero-bottom { opacity: 1; transform: none; }
+  #manifesto-text .word { opacity: 1; filter: none; }
+}
+</style>
 </head>
 <body>
-    <div class="terminal-container">
-        <div class="terminal-header">
-            <div>
-                <h1 class="terminal-title">> K4L1NUX.deb</h1>
-                <p class="terminal-subtitle">Desarrollador Backend & Lic. Ciencias De La Computacion</p>
-            </div>
-            <div>
-                <span style="color: var(--accent-secondary);">Status: </span>
-                <span style="color: var(--accent-primary);">Online</span>
-            </div>
-        </div>
-        
-        <div class="terminal-body">
-            <div class="terminal-sidebar">
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">> Sistema</h3>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fas fa-microchip"></i></span>
-                        <span class="sidebar-text">Python, TypeScript, Node.js</span>
-                    </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fas fa-server"></i></span>
-                        <span class="sidebar-text">NestJS, Django, Flask</span>
-                    </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fas fa-database"></i></span>
-                        <span class="sidebar-text">MySQL, MongoDB, Redis</span>
-                    </div>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">> Conexiones</h3>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fab fa-github"></i></span>
-                        <span class="sidebar-text">github.com/DarkHater01</span>
-                    </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fab fa-instagram"></i></span>
-                        <span class="sidebar-text">instagram.com/K4l1nux</span>
-                    </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fab fa-linkedin"></i></span>
-                        <span class="sidebar-text">linkedin.com/in/Hermes</span>
-                    </div>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">> Certificaciones</h3>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
-                        <span class="sidebar-text">Hacking Etico - Platzi</span>
-                    </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
-                        <span class="sidebar-text">OFFENSIVE SECURITY - OSCP</span>
-                    </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon"><i class="fas fa-certificate"></i></span>
-                        <span class="sidebar-text">Pentesting - Platzi</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="terminal-main">
-                <div class="command-line">
-                    <span class="command-prompt">> </span>
-                    <span class="command-input" id="commandInput">cat about_me.txt<span class="cursor"></span></span>
-                </div>
-                
-                <div class="output-container">
-                    <div class="output-line">
-                        <span class="cmd-user">usuario</span>@<span class="cmd-dir">k4l1nux-dev</span>:~$ cat about_me.txt
-                    </div>
-                    <div class="output-line">
-                        ------------------------------------------
-                    </div>
-                    <div class="output-line">
-                        > Nombre: Hermes DAvid Garcia Matos
-                    </div>
-                    <div class="output-line">
-                        > Titulación: Lic. Ciencias de la Computacion
-                    </div>
-                    <div class="output-line">
-                        > Especialidad: Desarrollo Backend
-                    </div>
-                    <div class="output-line">
-                        > Stack: Python, TypeScript, NestJS, Django
-                    </div>
-                    <div class="output-line">
-                        > Bases de datos: MySQL, MongoDB
-                    </div>
-                    <div class="output-line">
-                        ------------------------------------------
-                    </div>
-                    <div class="output-line">
-                        <span class="cmd-user">usuario</span>@<span class="cmd-dir">k4l1nux-dev</span>:~$ ls proyectos/
-                    </div>
-                    <div class="output-line">
-                        <span class="cmd-success">Sistema de Gestión de APIs</span>
-                    </div>
-                    <div class="output-line">
-                        <span class="cmd-success">E-commerce Backend</span>
-                    </div>
-                    <div class="output-line">
-                        <span class="cmd-success">Sistema de Autenticación</span>
-                    </div>
-                    <div class="output-line">
-                        <span class="cmd-user">usuario</span>@<span class="cmd-dir">k4l1nux-dev</span>:~$ <span class="cursor"></span>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 2rem;">
-                    <h3 class="sidebar-title">> Proyectos Destacados</h3>
-                    
-                    <div class="project-item">
-                        <h4 class="project-title">Sistema de Gestión de APIs</h4>
-                        <p class="project-desc">Plataforma para gestionar, monitorizar y documentar APIs con autenticación JWT y análisis de rendimiento.</p>
-                        <div>
-                            <span class="tech-pill">NestJS</span>
-                            <span class="tech-pill">MongoDB</span>
-                            <span class="tech-pill">Redis</span>
-                            <span class="tech-pill">Docker</span>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item">
-                        <h4 class="project-title">E-commerce Backend</h4>
-                        <p class="project-desc">Backend escalable para plataforma de e-commerce con procesamiento de pagos, carrito y sistema de recomendaciones.</p>
-                        <div>
-                            <span class="tech-pill">Django</span>
-                            <span class="tech-pill">MySQL</span>
-                            <span class="tech-pill">Celery</span>
-                            <span class="tech-pill">Stripe API</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        // Efecto de escritura automática en la terminal
-        document.addEventListener('DOMContentLoaded', function() {
-            const outputContainer = document.querySelector('.output-container');
-            const commandInput = document.getElementById('commandInput');
-            
-            // Simular comandos ejecutándose
-            setTimeout(() => {
-                outputContainer.scrollTop = outputContainer.scrollHeight;
-            }, 100);
-            
-            // Efecto de parpadeo del cursor
-            setInterval(() => {
-                const cursor = document.querySelector('.cursor');
-                cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
-            }, 500);
-        });
-    </script>
+<canvas id="fluid-root"></canvas>
+<div id="custom-cursor"></div>
+
+<div class="shell">
+
+<nav class="nav">
+  <div class="brand">H.D.G.M <span>//</span> CYBER OPS</div>
+  <div class="meta">
+    <span class="live">SIGNAL ACTIVE</span>
+    <span>SANTIAGO DE CUBA · CU</span>
+    <span>BUILD v.2025.07</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-top">
+    <div class="col">
+      <span>// OPERATOR FILE</span>
+      <span>HDM-001 · CLEARANCE L4</span>
+    </div>
+    <div class="col right">
+      <span>// COORDINATES</span>
+      <span>20.0247° N, 75.8267° W</span>
+    </div>
+  </div>
+
+  <div class="hero-main">
+    <div class="hero-eyebrow reveal-stagger">Pentester · Backend Architect · Systems Operator</div>
+    <h1 class="hero-title reveal-stagger">
+      <span class="line">HERMES</span>
+      <span class="line">DAVID <span class="accent">GARCÍA</span></span>
+      <span class="line">MATOS</span>
+    </h1>
+    <p class="hero-sub reveal-stagger">
+      Pentester, administrador de sistemas y desarrollador backend. <strong>Audito exchanges de criptomonedas</strong>, construyo microservicios resilientes al 99.9% de uptime y opero infraestructura crítica bajo presión. Complemento el perfil técnico con trading profesional — disciplina, riesgo controlado, ejecución precisa.
+    </p>
+    <div class="hero-cta reveal-stagger">
+      <a href="#contact" class="btn primary" data-cursor-hover>INICIAR CONTACTO <span class="arrow">→</span></a>
+      <a href="#operations" class="btn" data-cursor-hover>VER OPERACIONES</a>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="metric">
+      <div class="label">// Uptime entregado</div>
+      <div class="value">99.9<span class="unit">%</span></div>
+    </div>
+    <div class="metric">
+      <div class="label">// Velocidad integración</div>
+      <div class="value">+40<span class="unit">%</span></div>
+    </div>
+    <div class="metric">
+      <div class="label">// Roles activos</div>
+      <div class="value">03<span class="unit">/CORE</span></div>
+    </div>
+    <div class="metric">
+      <div class="label">// Base operativa</div>
+      <div class="value">CU<span class="unit">/SCU</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="section-label"><span class="num">01 /</span> MANIFIESTO OPERATIVO</div>
+  <div class="manifesto-grid">
+    <div class="left">
+      <h2 class="section-title">No vendo certificados. <em>Entrego resultado.</em></h2>
+      <div class="manifesto-meta">
+        <div class="item">
+          <div class="label">// DISCIPLINA</div>
+          <div class="value">Trader + Hacker</div>
+        </div>
+        <div class="item">
+          <div class="label">// ENFOQUE</div>
+          <div class="value">Resiliente por diseño</div>
+        </div>
+        <div class="item">
+          <div class="label">// METODOLOGÍA</div>
+          <div class="value">Adversarial first</div>
+        </div>
+        <div class="item">
+          <div class="label">// ENTREGA</div>
+          <div class="value">Producción, no POC</div>
+        </div>
+      </div>
+    </div>
+    <div class="right" id="manifesto-text">Opero en la intersección entre la seguridad ofensiva y la ingeniería backend. Cada sistema que toco lo trato como infraestructura crítica: <em>auditable, contenerizado, observable</em>. No me pagan por escribir código — me pagan por mantener operaciones en línea cuando todo lo demás falla. El trading profesional me enseñó a tomar decisiones con información incompleta, a medir riesgo antes de ejecutar y a no confundir movimiento con progreso. La ciberseguridad me enseñó a pensar como el adversario antes de construir la defensa. Ambos mundos convergen en la misma verdad: <em>la disciplina supera al talento cuando el talento no es disciplinado</em>.</div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="capabilities" id="capabilities">
+  <div class="section-label"><span class="num">02 /</span> STACK OPERATIVO</div>
+  <div class="cap-grid">
+    <div class="cap-left">
+      <h2 class="section-title">Capacidades <em>desplegadas.</em></h2>
+      <p class="desc">Categorías de operación activa. Cada línea representa un dominio donde he entregado en producción, no solo prototipos. Lo que está aquí adentro ya aguantó tráfico real.</p>
+      <ul class="cap-list">
+        <li data-cursor-hover><span class="name">Pentesting</span><span class="meta">OFFSEC · 04Y</span></li>
+        <li data-cursor-hover><span class="name">Criptografía Avanzada</span><span class="meta">APPLIED · 03Y</span></li>
+        <li data-cursor-hover><span class="name">Seguridad en Redes</span><span class="meta">PERIMETER · 04Y</span></li>
+        <li data-cursor-hover><span class="name">Seguridad en la Nube</span><span class="meta">CLOUD · 03Y</span></li>
+        <li data-cursor-hover><span class="name">Backend Architecture</span><span class="meta">SERVERSIDE · 02Y</span></li>
+        <li data-cursor-hover><span class="name">Procesamiento de Datos</span><span class="meta">DATA · 02Y</span></li>
+      </ul>
+    </div>
+    <div class="ring-stage">
+      <div class="ring" id="ring"></div>
+      <div class="ring-center">
+        <div class="num">12 // DOMINIOS</div>
+        <div class="label">ACTIVE STACK</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPERATIONS -->
+<section class="operations" id="operations">
+  <div class="section-label"><span class="num">03 /</span> OPERACIONES DESPLEGADAS</div>
+  <h2 class="section-title">Experiencia <em>de campo.</em></h2>
+
+  <div class="op-entry">
+    <div class="op-left">
+      <div class="op-index">// OP. 02 — ACTUAL</div>
+      <div class="op-role">Desarrollador Backend</div>
+      <div class="op-company">DATYS · Santiago de Cuba</div>
+      <div class="op-meta">
+        <div class="item">
+          <div class="label">// Periodo</div>
+          <div class="value">SEP 2025 — ACTUAL</div>
+        </div>
+        <div class="item">
+          <div class="label">// Modalidad</div>
+          <div class="value">ON-SITE · FULL</div>
+        </div>
+      </div>
+    </div>
+    <div class="op-right">
+      <p class="op-brief">Lidero la definición de arquitectura e implementación de <strong>microservicios resilientes al 99.9% de uptime</strong> bajo carga y pruebas de estrés. Contenerización en Docker/Kubernetes, integración en pipelines de CI/CD con GitHub Actions y Jenkins.</p>
+      <ul class="op-list">
+        <li data-cursor-hover>
+          <span class="tag">[ARC]</span>
+          <span class="text">Lideré la definición de arquitectura e implementación de soluciones de microservicios resilientes, logrando un <strong>99.9% de uptime</strong> bajo carga y en pruebas de estrés.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[DEV]</span>
+          <span class="text">Implementé contenerización de aplicaciones para despliegue en <strong>Docker y Kubernetes</strong>, integrándolas correctamente en pipelines de CI/CD con GitHub Actions y Jenkins.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[GOV]</span>
+          <span class="text">Participé en el equipo de desarrollo del proyecto de Integración de Datos Nacionales, contribuyendo con soluciones integradas a la infraestructura y el ecosistema de microservicios existente.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[PRF]</span>
+          <span class="text">Realicé migraciones e implementé mejoras sobre soluciones existentes: <strong>+40% en velocidad de integración</strong> entre microservicios y +60% en experiencia de usuario.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[SCA]</span>
+          <span class="text">Desarrollé componentes de enriquecimiento de datos en Scala, integrados con Spring Boot, para aumentar velocidad en la transferencia y procesamiento de datos.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[QA]</span>
+          <span class="text">Escribo pruebas unitarias e integraciones automatizadas para garantizar la calidad del código en pipelines productivos.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[API]</span>
+          <span class="text">Diseño y desarrollo de APIs RESTful escalables siguiendo principios de arquitectura limpia.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[SEC]</span>
+          <span class="text">Gestión de autenticación, autorización y seguridad de endpoints backend en entornos de alta criticidad.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="op-entry">
+    <div class="op-left">
+      <div class="op-index">// OP. 01 — CERRADA</div>
+      <div class="op-role">Especialista de Ciberseguridad</div>
+      <div class="op-company">Weex Exchange · Santiago de Cuba</div>
+      <div class="op-meta">
+        <div class="item">
+          <div class="label">// Periodo</div>
+          <div class="value">ENE 2023 — MAY 2024</div>
+        </div>
+        <div class="item">
+          <div class="label">// Modalidad</div>
+          <div class="value">REMOTE · FULL</div>
+        </div>
+      </div>
+    </div>
+    <div class="op-right">
+      <p class="op-brief">Auditoría de ciberseguridad sobre el exchange de criptomonedas <strong>Weex</strong>. Configuración de firewalls, IDS/IPS y herramientas de seguridad perimetral. Capacitación a usuarios y empleados de la comunidad hispanohablante.</p>
+      <ul class="op-list">
+        <li data-cursor-hover>
+          <span class="tag">[AUD]</span>
+          <span class="text">Realicé auditorías de ciberseguridad al exchange de criptomonedas <strong>Weex</strong>, identificando riesgos y proponiendo mejoras alineadas con buenas prácticas del sector.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[EDU]</span>
+          <span class="text">Impartí conferencias de ciberseguridad para usuarios de la comunidad hispanohablante de la plataforma, fomentando concienciación y uso seguro de criptomonedas.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[NET]</span>
+          <span class="text">Configuré, mantuve y optimicé <strong>firewalls, IDS/IPS</strong> y otras herramientas de seguridad perimetral.</span>
+        </li>
+        <li data-cursor-hover>
+          <span class="tag">[TRN]</span>
+          <span class="text">Capacité a empleados en concienciación de seguridad, phishing y buenas prácticas de ciberhigiene.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="credentials" id="credentials">
+  <div class="section-label"><span class="num">04 /</span> CREDENCIALES</div>
+  <h2 class="section-title">Formación e <em>idiomas.</em></h2>
+  <div class="cred-grid">
+    <div class="cred-cell" data-cursor-hover>
+      <div class="label">// EDUCACIÓN</div>
+      <div class="value">Licenciado en Ciencias de la Computación</div>
+      <div class="sub">Universidad de Oriente<br>Santiago de Cuba</div>
+      <div class="year">→ GRADUADO <strong>2025</strong></div>
+    </div>
+    <div class="cred-cell" data-cursor-hover>
+      <div class="label">// IDIOMA 01</div>
+      <div class="value">Español</div>
+      <div class="sub">Nativo · Profesional</div>
+      <div class="year">→ L1 / <strong>C2</strong></div>
+    </div>
+    <div class="cred-cell" data-cursor-hover>
+      <div class="label">// IDIOMA 02</div>
+      <div class="value">English</div>
+      <div class="sub">Profesional técnico · Documentación</div>
+      <div class="year">→ L2 / <strong>B2+</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="stack" id="stack">
+  <div class="stack-head">
+    <div class="section-label" style="margin-bottom:0;"><span class="num">05 /</span> ARSENAL TÉCNICO</div>
+    <div class="desc">// Stack verificado en producción</div>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-cell" data-cursor-hover><div class="cat">// BACKEND</div><div class="name">Spring Boot</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// JVM</div><div class="name">Scala</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// ORQ</div><div class="name">Kubernetes</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// CONT</div><div class="name">Docker</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// CI/CD</div><div class="name">GitHub Actions</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// CI/CD</div><div class="name">Jenkins</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">Pentest Suite</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">IDS / IPS</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">Firewalls</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">Criptografía</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// API</div><div class="name">RESTful</div></div>
+    <div class="stack-cell" data-cursor-hover><div class="cat">// DATA</div><div class="name">Enriquecimiento</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-eyebrow">// CANAL DE COMUNICACIÓN ABIERTO</div>
+  <h2 class="contact-title">
+    <span class="line">¿Operación</span>
+    <span class="line"><span class="accent">crítica</span> que</span>
+    <span class="line">requiere operador?</span>
+  </h2>
+  <div class="contact-grid">
+    <div class="contact-channels">
+      <a href="mailto:cyberdarkdavids@gmail.com" class="contact-channel" data-cursor-hover>
+        <div class="left">
+          <span class="label">// CORREO</span>
+          <span class="value">cyberdarkdavids@gmail.com</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <a href="tel:+5354808774" class="contact-channel" data-cursor-hover>
+        <div class="left">
+          <span class="label">// TELÉFONO</span>
+          <span class="value">+53 5480 8774</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <a href="https://linkedin.com/in/hermes-david-garcia-matos-b2a" class="contact-channel" data-cursor-hover>
+        <div class="left">
+          <span class="label">// LINKEDIN</span>
+          <span class="value">/in/hermes-david-garcia-matos</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <a href="https://darkhater01.github.io" class="contact-channel" data-cursor-hover>
+        <div class="left">
+          <span class="label">// PORTAFOLIO</span>
+          <span class="value">darkhater01.github.io</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+    <div class="contact-side">
+      <div class="info-block">
+        <div class="label">// DISPONIBILIDAD</div>
+        <div class="value"><strong>Signal activa.</strong> Aceptando conversaciones para roles de ciberseguridad ofensiva, arquitectura backend y posiciones híbridas de seguridad / ingeniería.</div>
+      </div>
+      <div class="info-block">
+        <div class="label">// UBICACIÓN</div>
+        <div class="value">Santiago de Cuba, Cuba.<br>Remoto global · UTC-5 · On-site Caribe</div>
+      </div>
+      <div class="info-block">
+        <div class="label">// TIEMPO DE RESPUESTA</div>
+        <div class="value"><strong>&lt; 24h</strong> en horario laboral. Las operaciones urgentes se responden primero.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="left">
+    <div class="name">Hermes David García Matos</div>
+    <div>© 2025 · Operador Independiente</div>
+  </div>
+  <div class="right">
+    <div>BUILD <span class="ver">v.2025.07.30</span></div>
+    <div>CLEARANCE L4 · OPERATOR FILE HDM-001</div>
+  </div>
+</footer>
+
+</div>
+
+<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js'></script>
+
+<script type='importmap'>
+{ "imports": { "three": "https://unpkg.com/three@0.183/build/three.module.js" } }
+</script>
+
+<script>
+// === LENIS SMOOTH SCROLL ===
+const lenis = new Lenis({
+  duration: 1.15,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true
+});
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+
+gsap.registerPlugin(ScrollTrigger);
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+// Anchor smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#' || !id || id.length < 2) return;
+    const target = document.querySelector(id);
+    if (target) {
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -80 });
+    }
+  });
+});
+
+// === CUSTOM CURSOR ===
+const cursor = document.getElementById('custom-cursor');
+const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+const target = { x: pos.x, y: pos.y };
+let hover = false;
+
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  window.addEventListener('mousemove', e => {
+    target.x = e.clientX;
+    target.y = e.clientY;
+  });
+
+  document.addEventListener('mouseover', e => {
+    const t = e.target;
+    hover = !!(t.closest('a, button, [data-cursor-hover]') || t.tagName === 'VIDEO');
+  });
+
+  (function cursorLoop() {
+    pos.x += (target.x - pos.x) * 0.18;
+    pos.y += (target.y - pos.y) * 0.18;
+    const s = hover ? 44 : 10;
+    cursor.style.transform = `translate(${pos.x - s/2}px, ${pos.y - s/2}px)`;
+    cursor.style.width = cursor.style.height = s + 'px';
+    cursor.style.opacity = hover ? 0.55 : 1;
+    requestAnimationFrame(cursorLoop);
+  })();
+}
+
+// === HERO 4-BEAT REVEAL ===
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('hero').classList.add('in');
+  }, 200);
+});
+
+// === SCRUB BLUR WORDS (MANIFESTO) ===
+document.fonts.ready.then(() => {
+  const textEl = document.getElementById('manifesto-text');
+  if (!textEl) return;
+
+  // Walk and wrap each word in a span, preserving <em> inheritance
+  const walk = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent;
+      if (!text || !text.trim()) return;
+      const parts = text.split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      parts.forEach(p => {
+        if (!p) return;
+        if (/^\s+$/.test(p)) {
+          frag.appendChild(document.createTextNode(p));
+        } else {
+          const span = document.createElement('span');
+          span.className = 'word';
+          span.textContent = p;
+          frag.appendChild(span);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  };
+  walk(textEl);
+
+  gsap.fromTo('#manifesto-text .word',
+    { opacity: 0.12, filter: 'blur(10px)' },
+    {
+      opacity: 1,
+      filter: 'blur(0px)',
+      stagger: 0.04,
+      ease: 'sine.out',
+      scrollTrigger: {
+        trigger: '#manifesto-text',
+        start: 'top 82%',
+        end: 'center 55%',
+        scrub: true
+      }
+    }
+  );
+});
+
+// === WORD RING ===
+const ringEl = document.getElementById('ring');
+const WORDS = [
+  'PENTESTING', 'CRYPTO', 'BACKEND', 'DEVOPS',
+  'KUBERNETES', 'SCALA', 'DOCKER', 'CLOUD-SEC',
+  'CI/CD', 'NETWORK', 'AUDIT', 'RESILIENCE'
+];
+const allWords = [...WORDS, ...WORDS];
+const step = 360 / allWords.length;
+const radius = 320;
+
+allWords.forEach((w, i) => {
+  const d = document.createElement('div');
+  d.className = 'ring-item';
+  d.style.transform = `rotateX(${i * step}deg) translateZ(${radius}px)`;
+  d.innerHTML = `<span>${w}</span>`;
+  ringEl.appendChild(d);
+});
+
+const rot = { v: 0 }, spd = { v: 0 };
+let cr = 0, cs = 0;
+
+gsap.to(rot, {
+  v: 720,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#capabilities',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: 1,
+    onUpdate: s => { spd.v = s.getVelocity() * 0.0004; }
+  }
+});
+
+(function ringTick() {
+  requestAnimationFrame(ringTick);
+  cr += (rot.v - cr) * 0.08;
+  cs += (spd.v - cs) * 0.1;
+  spd.v *= 0.95;
+  const abs = Math.abs(cs);
+  const skew = Math.min(abs * 12, 10);
+  const sx = 1 + Math.min(abs * 0.2, 0.12);
+  ringEl.style.transform = `rotateX(${cr}deg)`;
+  ringEl.querySelectorAll('.ring-item').forEach(it => {
+    const bl = Math.min(abs * 1.5, 2);
+    it.style.filter = bl > 0.1 ? `blur(${bl}px)` : 'none';
+    const span = it.querySelector('span');
+    if (span) span.style.transform = `translate(-50%, -50%) skewX(${cs > 0 ? skew : -skew}deg) scaleX(${sx})`;
+  });
+})();
+
+// === REVEAL ON SCROLL ===
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('in');
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.innerWidth < 768;
+
+const canvas = document.getElementById('fluid-root');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+const scene = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+const geom = new THREE.PlaneGeometry(2, 2);
+
+const simScale = isMobile ? 0.3 : 0.5;
+let simW = Math.floor(window.innerWidth * simScale);
+let simH = Math.floor(window.innerHeight * simScale);
+
+const rtOpts = {
+  type: THREE.HalfFloatType,
+  format: THREE.RGBAFormat,
+  minFilter: THREE.LinearFilter,
+  magFilter: THREE.LinearFilter,
+  wrapS: THREE.ClampToEdgeWrapping,
+  wrapT: THREE.ClampToEdgeWrapping
+};
+
+let rtA = new THREE.WebGLRenderTarget(simW, simH, rtOpts);
+let rtB = new THREE.WebGLRenderTarget(simW, simH, rtOpts);
+
+const simMat = new THREE.ShaderMaterial({
+  uniforms: {
+    uFluidTex: { value: null },
+    uResolution: { value: new THREE.Vector2(simW, simH) },
+    iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
+    uFluidDecay: { value: 0.985 },
+    uTrailLength: { value: 0.97 }
+  },
+  vertexShader: `varying vec2 v_uv; void main(){ v_uv = uv; gl_Position = vec4(position,1.0); }`,
+  fragmentShader: `
+    uniform sampler2D uFluidTex;
+    uniform vec2 uResolution;
+    uniform vec4 iMouse;
+    uniform float uFluidDecay;
+    uniform float uTrailLength;
+    varying vec2 v_uv;
+    vec3 dec(vec3 r){ return (r-.5)*.8; }
+    vec3 enc(vec3 s){ return s/.8+.5; }
+    void main(){
+      vec2 tx = 1.0/uResolution;
+      vec3 p = dec(texture2D(uFluidTex, v_uv).rgb);
+      vec2 vel = p.rg; float ink = p.b;
+      vec3 L = dec(texture2D(uFluidTex, v_uv-vec2(tx.x,0)).rgb);
+      vec3 R = dec(texture2D(uFluidTex, v_uv+vec2(tx.x,0)).rgb);
+      vec3 U = dec(texture2D(uFluidTex, v_uv+vec2(0,tx.y)).rgb);
+      vec3 D = dec(texture2D(uFluidTex, v_uv-vec2(0,tx.y)).rgb);
+      vel = mix(vel, (L.rg+R.rg+U.rg+D.rg)*.25, .28);
+      ink = mix(ink, (L.b+R.b+U.b+D.b)*.25, .28);
+      vec3 adv = dec(texture2D(uFluidTex, v_uv - vel*tx*1.2).rgb);
+      vel = mix(vel, adv.rg, .45);
+      ink = mix(ink, adv.b, .45);
+      vec2 mo = iMouse.xy - iMouse.zw;
+      float bm = exp(-pow(distance(v_uv*uResolution, iMouse.xy), 2.0)*2.2e-4);
+      vel += mo*bm*.03;
+      ink += bm*.09;
+      vel *= uFluidDecay;
+      ink *= uTrailLength;
+      gl_FragColor = vec4(enc(vec3(clamp(vel,-.4,.4), clamp(ink,-.4,.4))), 1.0);
+    }
+  `
+});
+
+const displayMat = new THREE.ShaderMaterial({
+  uniforms: {
+    u_fluid: { value: null },
+    u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    u_time: { value: 0 }
+  },
+  vertexShader: `varying vec2 v_uv; void main(){ v_uv = uv; gl_Position = vec4(position,1.0); }`,
+  fragmentShader: `
+    uniform sampler2D u_fluid;
+    uniform vec2 u_resolution;
+    uniform float u_time;
+    varying vec2 v_uv;
+    float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+    float n(vec2 p){
+      vec2 i = floor(p), f = fract(p);
+      float a = h(i), b = h(i+vec2(1,0)), c = h(i+vec2(0,1)), d = h(i+vec2(1,1));
+      vec2 u = f*f*(3.-2.*f);
+      return mix(a,b,u.x) + (c-a)*u.y*(1.-u.x) + (d-b)*u.x*u.y;
+    }
+    float fbm(vec2 p){
+      float s=0., a=.5, f=1.;
+      for(int i=0;i<6;i++){ s += n(p*f)*a; a*=.5; f*=2.; }
+      return s;
+    }
+    void main(){
+      vec3 fs = (texture2D(u_fluid, v_uv).rgb - .5) * .8;
+      vec2 uv = (v_uv + fs.rg*(.038+.18*fs.b))*2.-1.;
+      uv.x *= u_resolution.x / u_resolution.y;
+      float t = u_time*.18;
+      vec2 mv = vec2(fbm(uv*.5+t), fbm(uv*.5+t+2.));
+      float p = smoothstep(0., 1., fbm(uv + mv));
+      vec3 c1 = vec3(0.0, 0.0, 0.0);
+      vec3 c2 = vec3(0.06, 0.06, 0.075);
+      vec3 c3 = vec3(1.0, 0.42, 0.10);
+      vec3 col = mix(mix(c1, c2, p), c3, p*p*p * 0.5);
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `
+});
+
+const simMesh = new THREE.Mesh(geom, simMat);
+const displayMesh = new THREE.Mesh(geom, displayMat);
+
+const mouse = { x: window.innerWidth / 2 * simScale, y: window.innerHeight / 2 * simScale, px: 0, py: 0 };
+window.addEventListener('mousemove', e => {
+  mouse.px = mouse.x;
+  mouse.py = mouse.y;
+  mouse.x = e.clientX * simScale;
+  mouse.y = (window.innerHeight - e.clientY) * simScale;
+});
+
+let visible = true;
+const observer = new IntersectionObserver(entries => {
+  visible = entries[0].isIntersecting;
+}, { threshold: 0 });
+observer.observe(canvas);
+
+window.addEventListener('resize', () => {
+  const w = window.innerWidth, h = window.innerHeight;
+  renderer.setSize(w, h);
+  displayMat.uniforms.u_resolution.value.set(w, h);
+  simW = Math.floor(w * simScale);
+  simH = Math.floor(h * simScale);
+  rtA.setSize(simW, simH);
+  rtB.setSize(simW, simH);
+  simMat.uniforms.uResolution.value.set(simW, simH);
+});
+
+const clock = new THREE.Clock();
+
+function render() {
+  requestAnimationFrame(render);
+  if (!visible || reducedMotion) return;
+
+  simMat.uniforms.iMouse.value.set(mouse.x, mouse.y, mouse.px, mouse.py);
+
+  simMat.uniforms.uFluidTex.value = rtA.texture;
+  scene.add(simMesh);
+  renderer.setRenderTarget(rtB);
+  renderer.render(scene, camera);
+  scene.remove(simMesh);
+
+  const tmp = rtA; rtA = rtB; rtB = tmp;
+
+  displayMat.uniforms.u_fluid.value = rtA.texture;
+  displayMat.uniforms.u_time.value = clock.getElapsedTime();
+  scene.add(displayMesh);
+  renderer.setRenderTarget(null);
+  renderer.render(scene, camera);
+  scene.remove(displayMesh);
+
+  mouse.px = mouse.x;
+  mouse.py = mouse.y;
+}
+
+if (reducedMotion) {
+  displayMat.uniforms.u_time.value = 1.0;
+  displayMat.uniforms.u_fluid.value = rtA.texture;
+  scene.add(displayMesh);
+  renderer.setRenderTarget(null);
+  renderer.render(scene, camera);
+} else {
+  render();
+}
+</script>
+
 </body>
 </html>
