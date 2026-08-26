@@ -2,1776 +2,655 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hermes David García Matos — Especialista de Ciberseguridad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hermes García Matos — Pentester & Backend Dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;800;900&display=swap'>
-
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0a0a0a;
-  --bg-elevated: #141414;
-  --text: #ffffff;
-  --text-soft: #b8b8b8;
-  --text-mute: #6e6e6e;
-  --accent: #ff6b1a;
-  --accent-soft: rgba(255,107,26,0.2);
-  --accent-dim: rgba(255,107,26,0.06);
-  --line: rgba(255,255,255,0.10);
-  --line-soft: rgba(255,255,255,0.06);
-  --line-strong: rgba(255,255,255,0.18);
-  --ease-quiet: cubic-bezier(.22, 1, .36, 1);
-  --ease-precise: cubic-bezier(.4, 0, .2, 1);
-  --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: auto; }
-
-html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  line-height: 1.5;
-  overflow-x: hidden;
-}
-
-body { -webkit-font-smoothing: antialiased; }
-
-@media (hover: hover) and (pointer: fine) {
-  body, a, button, .btn, [data-cursor-hover] { cursor: none; }
-}
-
-a { color: inherit; text-decoration: none; }
-
-/* Fluid shader background */
-#fluid-root {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.shell {
-  position: relative;
-  z-index: 1;
-}
-
-#custom-cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: #fff;
-  mix-blend-mode: difference;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-  transition: width .3s var(--ease-quiet), height .3s var(--ease-quiet), opacity .3s var(--ease-quiet);
-}
-
-@media (pointer: coarse), (hover: none) {
-  #custom-cursor { display: none !important; }
-}
-
-/* === NAV === */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 32px;
-  background: rgba(10,10,10,0.65);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line-soft);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.nav .brand { color: var(--text); font-weight: 700; }
-.nav .brand span { color: var(--accent); margin: 0 6px; }
-.nav .meta { display: flex; gap: 28px; color: var(--text-soft); }
-.nav .meta .live::before {
-  content: '';
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-right: 8px;
-  vertical-align: middle;
-  box-shadow: 0 0 10px var(--accent);
-  animation: pulse 2.4s var(--ease-quiet) infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-@media (max-width: 768px) {
-  .nav .meta { display: none; }
-  .nav { padding: 14px 20px; }
-}
-
-/* === HERO === */
-.hero {
-  min-height: 100vh;
-  padding: 130px 32px 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-}
-
-.hero-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 60px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-soft);
-}
-
-.hero-top .col { display: flex; flex-direction: column; gap: 4px; }
-.hero-top .col span:first-child { color: var(--text-mute); }
-.hero-top .col span:last-child { color: var(--text); }
-.hero-top .col.right { text-align: right; }
-
-.hero-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 1400px;
-}
-
-.hero-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 32px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.hero-eyebrow::before {
-  content: '';
-  width: 36px;
-  height: 1px;
-  background: var(--accent);
-}
-
-.hero-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: clamp(48px, 9.2vw, 152px);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  margin-bottom: 36px;
-  color: var(--text);
-}
-
-.hero-title .accent { color: var(--accent); }
-.hero-title .line { display: block; }
-
-.hero-sub {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.5;
-  color: var(--text-soft);
-  max-width: 720px;
-  margin-bottom: 56px;
-}
-
-.hero-sub strong { color: var(--text); font-weight: 700; }
-
-.hero-cta {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 30px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 1px solid var(--line-strong);
-  background: transparent;
-  color: var(--text);
-  transition: all .4s var(--ease-quiet);
-  position: relative;
-  overflow: hidden;
-  font-weight: 700;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  transform: translateX(-101%);
-  transition: transform .45s var(--ease-quiet);
-  z-index: -1;
-}
-
-.btn:hover::before { transform: translateX(0); }
-.btn:hover { border-color: var(--accent); color: #0a0a0a; }
-
-.btn.primary {
-  background: var(--accent);
-  color: #0a0a0a;
-  border-color: var(--accent);
-}
-
-.btn.primary::before { background: #fff; }
-.btn.primary:hover { color: #0a0a0a; border-color: #fff; }
-
-.btn .arrow { font-size: 14px; line-height: 1; }
-
-.hero-bottom {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--line);
-  padding-top: 22px;
-  margin-top: 60px;
-}
-
-.metric {
-  padding: 12px 24px 12px 0;
-  border-right: 1px solid var(--line);
-}
-
-.metric:last-child { border-right: none; padding-right: 0; }
-
-.metric .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: 10px;
-}
-
-.metric .value {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(20px, 2.2vw, 30px);
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.02em;
-}
-
-.metric .value .unit {
-  font-size: 11px;
-  color: var(--accent);
-  margin-left: 4px;
-  letter-spacing: 0.1em;
-}
-
-@media (max-width: 768px) {
-  .hero-bottom { grid-template-columns: repeat(2, 1fr); }
-  .metric:nth-child(2) { border-right: none; }
-  .metric { padding: 12px 12px; border-bottom: 1px solid var(--line); }
-  .metric:nth-child(3), .metric:nth-child(4) { border-bottom: none; }
-  .hero-top { flex-direction: column; gap: 16px; }
-  .hero-top .col.right { text-align: left; }
-}
-
-/* === SECTION COMMON === */
-section { position: relative; padding: 120px 32px; }
-
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 36px;
-}
-
-.section-label::before {
-  content: '';
-  width: 36px; height: 1px;
-  background: var(--accent);
-}
-
-.section-label .num {
-  color: var(--text-mute);
-  letter-spacing: 0.1em;
-}
-
-.section-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 900;
-  font-size: clamp(36px, 5.2vw, 76px);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  margin-bottom: 60px;
-  max-width: 900px;
-}
-
-.section-title em {
-  font-style: normal;
-  color: var(--accent);
-}
-
-/* === MANIFESTO === */
-.manifesto { max-width: 1400px; margin: 0 auto; }
-
-.manifesto-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 80px;
-  align-items: start;
-}
-
-.manifesto-grid .left {
-  position: sticky;
-  top: 120px;
-}
-
-.manifesto-grid .right {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: clamp(20px, 2vw, 28px);
-  line-height: 1.45;
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
-
-#manifesto-text .word {
-  display: inline-block;
-  opacity: 0.18;
-  filter: blur(8px);
-  will-change: filter, opacity;
-}
-
-#manifesto-text em .word { color: var(--accent); font-style: normal; }
-
-.manifesto-meta {
-  margin-top: 48px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  border-top: 1px solid var(--line);
-  padding-top: 28px;
-}
-
-.manifesto-meta .item .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: 8px;
-}
-
-.manifesto-meta .item .value {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--text);
-  letter-spacing: 0.02em;
-}
-
-@media (max-width: 900px) {
-  .manifesto-grid { grid-template-columns: 1fr; gap: 40px; }
-  .manifesto-grid .left { position: static; }
-}
-
-/* === CAPABILITIES === */
-.capabilities {
-  padding: 120px 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.cap-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
-}
-
-.cap-left {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 80px 0;
-}
-
-.cap-left .section-title { margin-bottom: 28px; }
-
-.cap-left .desc {
-  font-size: 15px;
-  color: var(--text-soft);
-  line-height: 1.65;
-  margin-bottom: 36px;
-  max-width: 480px;
-}
-
-.cap-list {
-  list-style: none;
-  border-top: 1px solid var(--line);
-}
-
-.cap-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
-  position: relative;
-  transition: padding .45s var(--ease-quiet);
-}
-
-.cap-list li::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: 0;
-  width: 2px;
-  height: 0;
-  background: var(--accent);
-  transition: height .6s var(--ease-quiet);
-}
-
-.cap-list li:hover::before { height: 100%; }
-.cap-list li:hover { padding-left: 16px; }
-
-.cap-list .name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text);
-  transition: color .4s var(--ease-quiet);
-  font-weight: 700;
-}
-
-.cap-list li:hover .name { color: var(--accent); }
-
-.cap-list .meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-mute);
-  letter-spacing: 0.1em;
-}
-
-.ring-stage {
-  perspective: 1100px;
-  perspective-origin: 50% 50%;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.ring {
-  position: relative;
-  width: 1px;
-  height: 1px;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.ring-item {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.ring-item span {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: clamp(20px, 2.6vw, 36px);
-  letter-spacing: -0.02em;
-  color: var(--text);
-  text-transform: uppercase;
-  transform: translate(-50%, -50%);
-  will-change: transform, filter;
-  white-space: nowrap;
-}
-
-.ring-item:nth-child(odd) span { color: var(--accent); }
-
-.ring-center {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.ring-center .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text);
-  letter-spacing: 0.3em;
-  font-weight: 700;
-}
-
-.ring-center .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  color: var(--accent);
-  letter-spacing: 0.3em;
-  margin-top: 6px;
-}
-
-@media (max-width: 900px) {
-  .cap-grid { grid-template-columns: 1fr; gap: 0; }
-  .cap-left { position: static; height: auto; padding: 0; }
-  .ring-stage { height: 70vh; position: relative; }
-  .ring-item span { font-size: 22px; }
-}
-
-/* === OPERATIONS === */
-.operations {
-  padding: 120px 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.op-entry {
-  display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 80px;
-  padding: 80px 0;
-  border-top: 1px solid var(--line);
-  position: relative;
-}
-
-.op-entry:last-child { border-bottom: 1px solid var(--line); }
-
-.op-left {
-  position: sticky;
-  top: 100px;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.op-index {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: 0.3em;
-  font-weight: 700;
-}
-
-.op-role {
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: clamp(28px, 3vw, 44px);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-
-.op-company {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--text-soft);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.op-meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line-soft);
-  margin-top: 8px;
-}
-
-.op-meta .item .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: 6px;
-}
-
-.op-meta .item .value {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text);
-  letter-spacing: 0.05em;
-}
-
-.op-right {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.op-brief {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(16px, 1.4vw, 19px);
-  line-height: 1.55;
-  color: var(--text);
-  margin-bottom: 32px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--line-soft);
-  font-weight: 500;
-}
-
-.op-brief strong { color: var(--accent); font-weight: 700; }
-
-.op-list {
-  list-style: none;
-}
-
-.op-list li {
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line-soft);
-  position: relative;
-  transition: padding .45s var(--ease-quiet);
-}
-
-.op-list li::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: 0;
-  width: 2px;
-  height: 0;
-  background: var(--accent);
-  transition: height .6s var(--ease-quiet);
-}
-
-.op-list li:hover::before { height: 100%; }
-.op-list li:hover { padding-left: 16px; }
-
-.op-list .tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  padding-top: 5px;
-  font-weight: 700;
-}
-
-.op-list .text {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-soft);
-  transition: color .4s var(--ease-quiet);
-}
-
-.op-list li:hover .text { color: var(--text); }
-.op-list .text strong { color: var(--text); font-weight: 600; }
-
-@media (max-width: 900px) {
-  .op-entry { grid-template-columns: 1fr; gap: 32px; padding: 60px 0; }
-  .op-left { position: static; }
-  .op-list li { grid-template-columns: 1fr; gap: 4px; }
-}
-
-/* === CREDENTIALS === */
-.credentials {
-  padding: 120px 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.cred-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.cred-cell {
-  padding: 48px 32px;
-  border-right: 1px solid var(--line);
-  position: relative;
-  transition: background .4s var(--ease-quiet);
-}
-
-.cred-cell:last-child { border-right: none; }
-
-.cred-cell:hover { background: var(--accent-dim); }
-
-.cred-cell .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 28px;
-  font-weight: 700;
-}
-
-.cred-cell .value {
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 14px;
-}
-
-.cred-cell .sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text-soft);
-  letter-spacing: 0.05em;
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-.cred-cell .year {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-mute);
-  letter-spacing: 0.2em;
-}
-
-.cred-cell .year strong { color: var(--accent); font-weight: 700; }
-
-@media (max-width: 900px) {
-  .cred-grid { grid-template-columns: 1fr; }
-  .cred-cell { border-right: none; border-bottom: 1px solid var(--line); }
-  .cred-cell:last-child { border-bottom: none; }
-}
-
-/* === STACK === */
-.stack {
-  padding: 0 32px 120px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.stack-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.stack-head .desc {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--text-mute);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.stack-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--line);
-}
-
-.stack-cell {
-  padding: 22px 24px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  position: relative;
-  transition: background .3s var(--ease-quiet);
-  overflow: hidden;
-}
-
-.stack-cell::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 0; height: 2px;
-  background: var(--accent);
-  transition: width .4s var(--ease-quiet);
-}
-
-.stack-cell:hover::after { width: 100%; }
-.stack-cell:hover { background: var(--accent-dim); }
-
-.stack-cell:nth-child(4n) { border-right: none; }
-
-.stack-cell .cat {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: 10px;
-}
-
-.stack-cell .name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
-
-@media (max-width: 900px) {
-  .stack-grid { grid-template-columns: repeat(2, 1fr); }
-  .stack-cell:nth-child(4n) { border-right: 1px solid var(--line); }
-  .stack-cell:nth-child(2n) { border-right: none; }
-}
-
-/* === CONTACT === */
-.contact {
-  padding: 160px 32px 120px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.contact-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 36px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-weight: 700;
-}
-
-.contact-eyebrow::before {
-  content: '';
-  width: 36px; height: 1px;
-  background: var(--accent);
-}
-
-.contact-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: clamp(48px, 8vw, 132px);
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  margin-bottom: 72px;
-}
-
-.contact-title .accent { color: var(--accent); }
-.contact-title .line { display: block; }
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 80px;
-  border-top: 1px solid var(--line);
-  padding-top: 60px;
-}
-
-.contact-channels {
-  display: flex;
-  flex-direction: column;
-}
-
-.contact-channel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
-  position: relative;
-  transition: padding .45s var(--ease-quiet);
-}
-
-.contact-channel::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: 0;
-  width: 2px;
-  height: 0;
-  background: var(--accent);
-  transition: height .6s var(--ease-quiet);
-}
-
-.contact-channel:hover::before { height: 100%; }
-.contact-channel:hover { padding-left: 16px; }
-
-.contact-channel .left {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.contact-channel .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  transition: color .4s var(--ease-quiet);
-}
-
-.contact-channel:hover .label { color: var(--accent); }
-
-.contact-channel .value {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(14px, 1.4vw, 18px);
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
-
-.contact-channel .arrow {
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--text-mute);
-  font-size: 20px;
-  transition: color .4s var(--ease-quiet), transform .4s var(--ease-quiet);
-}
-
-.contact-channel:hover .arrow {
-  color: var(--accent);
-  transform: translateX(8px);
-}
-
-.contact-side {
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-}
-
-.contact-side .info-block .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: 12px;
-  font-weight: 700;
-}
-
-.contact-side .info-block .value {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  color: var(--text);
-  line-height: 1.55;
-}
-
-.contact-side .info-block .value strong {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-@media (max-width: 900px) {
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-}
-
-/* === FOOTER === */
-footer {
-  padding: 60px 32px 32px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-footer .left {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-}
-
-footer .left .name { color: var(--text); margin-bottom: 6px; font-weight: 700; }
-
-footer .right {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  text-align: right;
-}
-
-footer .right .ver { color: var(--accent); font-weight: 700; }
-
-@media (max-width: 600px) {
-  footer { flex-direction: column; align-items: flex-start; }
-  footer .right { text-align: left; }
-}
-
-/* === HERO REVEAL === */
-.hero .reveal-stagger {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .9s var(--ease-quiet), transform .9s var(--ease-quiet);
-}
-
-.hero.in .reveal-stagger { opacity: 1; transform: translateY(0); }
-.hero.in .reveal-stagger:nth-child(1) { transition-delay: 0ms; }
-.hero.in .reveal-stagger:nth-child(2) { transition-delay: 180ms; }
-.hero.in .reveal-stagger:nth-child(3) { transition-delay: 360ms; }
-.hero.in .reveal-stagger:nth-child(4) { transition-delay: 540ms; }
-
-.hero .hero-top, .hero .hero-bottom {
-  opacity: 0;
-  transition: opacity 1s var(--ease-quiet);
-}
-
-.hero.in .hero-top { opacity: 1; transition-delay: 0ms; }
-.hero.in .hero-bottom { opacity: 1; transition-delay: 720ms; }
-
-/* === REVEAL === */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s var(--ease-quiet), transform 1s var(--ease-quiet);
-}
-
-.reveal.in { opacity: 1; transform: translateY(0); }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-  .reveal, .hero .reveal-stagger, .hero .hero-top, .hero .hero-bottom { opacity: 1; transform: none; }
-  #manifesto-text .word { opacity: 1; filter: none; }
-}
+:root{
+  --bg:#020604; --neon:#00ff9c; --neon-dim:#0f8f5f; --cyan:#00e5ff; --mag:#ff2e88;
+  --txt:#c9f5e2; --mut:#5f8f7a;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{font-family:"JetBrains Mono",monospace;color:var(--txt);touch-action:none;}
+a{color:var(--neon);text-decoration:none;}
+canvas{display:block;}
+::selection{background:var(--neon);color:#02120b;}
+
+/* ── capas de ambiente ── */
+#scan{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:.10;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,#00ff9c 2px 3px);}
+#vig{position:fixed;inset:0;z-index:41;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%);}
+
+/* ── HUD ── */
+#hud{position:fixed;inset:0;z-index:50;pointer-events:none;font-size:11px;letter-spacing:.12em;}
+.hud-tl{position:absolute;top:16px;left:18px;}
+.hud-tl b{font-family:Orbitron;font-size:15px;letter-spacing:.14em;color:var(--neon);
+  text-shadow:0 0 14px rgba(0,255,156,.6);display:block;}
+.hud-tl span{color:var(--mut);font-size:10px;}
+.hud-tr{position:absolute;top:14px;right:16px;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:auto;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:340px;}
+.chip{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;color:var(--txt);
+  background:rgba(2,18,11,.75);border:1px solid rgba(0,255,156,.4);padding:7px 12px;cursor:pointer;
+  transition:.25s;backdrop-filter:blur(4px);}
+.chip:hover{background:var(--neon);color:#02120b;box-shadow:0 0 18px rgba(0,255,156,.5);}
+.hud-bl{position:absolute;left:18px;bottom:16px;color:var(--mut);}
+.hud-bl b{color:var(--neon);font-family:Orbitron;font-size:22px;letter-spacing:.06em;
+  text-shadow:0 0 12px rgba(0,255,156,.55);}
+.hud-br{position:absolute;right:18px;bottom:16px;color:var(--mut);text-align:right;font-size:10px;line-height:1.9;}
+.hud-br b{color:var(--txt);}
+@media(pointer:coarse){.hud-br{display:none;}}
+
+/* ── pads táctiles ── */
+#pads{display:none;position:fixed;inset:auto 0 0 0;z-index:55;justify-content:space-between;
+  padding:0 18px 22px;pointer-events:none;}
+@media(pointer:coarse){#pads{display:flex;}}
+.pad{display:flex;gap:12px;pointer-events:auto;}
+.pbtn{width:66px;height:66px;border:1px solid rgba(0,255,156,.5);background:rgba(2,18,11,.6);
+  color:var(--neon);font-size:22px;display:flex;align-items:center;justify-content:center;
+  border-radius:14px;user-select:none;backdrop-filter:blur(4px);}
+.pbtn:active{background:var(--neon);color:#02120b;}
+
+/* ── INTRO ── */
+#intro{position:fixed;inset:0;z-index:100;background:rgba(1,4,3,.9);backdrop-filter:blur(3px);
+  display:flex;align-items:center;justify-content:center;transition:opacity .7s;}
+#intro.off{opacity:0;pointer-events:none;}
+.term{width:min(680px,92vw);border:1px solid rgba(0,255,156,.45);background:rgba(2,12,8,.92);
+  box-shadow:0 0 80px rgba(0,255,156,.15),inset 0 0 60px rgba(0,255,156,.04);padding:26px 28px 30px;}
+.term-bar{display:flex;gap:7px;margin-bottom:18px;}
+.tb{width:11px;height:11px;border-radius:50%;background:#0d3a28;}
+.tb:first-child{background:var(--neon);}
+.glitch{font-family:Orbitron;font-weight:800;font-size:clamp(24px,5vw,44px);letter-spacing:.08em;
+  color:#eafff5;position:relative;text-shadow:2px 0 var(--mag),-2px 0 var(--cyan);animation:gsh 3s infinite;}
+@keyframes gsh{0%,93%,100%{text-shadow:2px 0 var(--mag),-2px 0 var(--cyan);}
+  94%{text-shadow:-3px 0 var(--mag),3px 0 var(--cyan);}96%{text-shadow:3px 0 var(--cyan),-3px 0 var(--mag);}}
+.tline{margin-top:12px;font-size:12.5px;line-height:1.8;white-space:pre-wrap;min-height:1em;}
+.tline .p{color:var(--neon);}
+.tline .o{color:var(--txt);}
+.tline .d{color:var(--mut);}
+.cursor-blink::after{content:"▊";color:var(--neon);animation:bl .8s steps(1) infinite;}
+@keyframes bl{50%{opacity:0;}}
+#startBtn{margin-top:26px;width:100%;padding:16px;font-family:Orbitron;font-weight:800;font-size:14px;
+  letter-spacing:.24em;background:var(--neon);color:#02120b;border:none;cursor:pointer;transition:.25s;}
+#startBtn:hover{box-shadow:0 0 34px rgba(0,255,156,.7);transform:translateY(-2px);}
+.tnote{margin-top:14px;font-size:10px;color:var(--mut);letter-spacing:.1em;text-align:center;}
+
+/* ── PANEL DE SECCIÓN ── */
+#ov{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;
+  background:rgba(1,4,3,.72);backdrop-filter:blur(5px);}
+#ov.on{display:flex;}
+.card{width:min(880px,93vw);max-height:85vh;overflow-y:auto;position:relative;
+  background:rgba(2,12,8,.95);border:1px solid rgba(0,255,156,.45);
+  box-shadow:0 0 90px rgba(0,255,156,.14);padding:30px 34px 36px;
+  animation:pop .45s cubic-bezier(.2,1.4,.4,1);}
+@keyframes pop{from{opacity:0;transform:translateY(26px) scale(.97);}}
+.card::-webkit-scrollbar{width:8px;}
+.card::-webkit-scrollbar-thumb{background:var(--neon-dim);}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
+  border-bottom:1px dashed rgba(0,255,156,.3);padding-bottom:12px;}
+.card-top h2{font-family:Orbitron;font-size:clamp(17px,3vw,24px);letter-spacing:.14em;color:var(--neon);
+  text-shadow:0 0 16px rgba(0,255,156,.5);}
+#ovClose{background:none;border:1px solid rgba(0,255,156,.5);color:var(--neon);width:38px;height:38px;
+  font-size:15px;cursor:pointer;transition:.25s;}
+#ovClose:hover{background:var(--neon);color:#02120b;transform:rotate(90deg);}
+.quote{border-left:3px solid var(--neon);padding:6px 0 6px 16px;color:#eafff5;font-size:14px;
+  font-style:italic;margin:14px 0 20px;line-height:1.7;}
+.lead{font-size:13.5px;line-height:1.85;color:var(--txt);}
+.card h3{font-size:11px;letter-spacing:.22em;color:var(--neon);margin:26px 0 12px;text-transform:uppercase;}
+.stat4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0;}
+.stat4 div{border:1px solid rgba(0,255,156,.25);padding:14px 8px;text-align:center;}
+.stat4 b{display:block;font-family:Orbitron;color:var(--neon);font-size:clamp(15px,2.4vw,22px);}
+.stat4 span{font-size:9px;color:var(--mut);letter-spacing:.12em;}
+.xp{border:1px solid rgba(0,255,156,.2);padding:18px 20px;margin-bottom:14px;background:rgba(0,255,156,.03);}
+.xp h4{font-family:Orbitron;font-size:14px;color:#eafff5;letter-spacing:.06em;}
+.xp .co{color:var(--neon);font-size:12px;margin:4px 0 10px;}
+.xp .co i{font-style:normal;color:var(--mut);}
+.xp ul{list-style:none;}
+.xp li{font-size:12.5px;line-height:1.75;padding-left:16px;position:relative;color:var(--txt);}
+.xp li::before{content:"▸";position:absolute;left:0;color:var(--neon);}
+.tags{display:flex;flex-wrap:wrap;gap:7px;}
+.tag{font-size:10.5px;border:1px solid rgba(0,255,156,.4);color:var(--txt);padding:5px 11px;letter-spacing:.06em;}
+.sk{margin-bottom:16px;}
+.sk b{display:block;font-size:11px;color:var(--neon);letter-spacing:.18em;margin-bottom:8px;}
+.cert{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed rgba(0,255,156,.18);
+  padding:10px 2px;font-size:12.5px;}
+.cert span{color:var(--mut);font-size:10.5px;white-space:nowrap;padding-top:2px;}
+.crow{display:flex;gap:14px;align-items:baseline;border:1px solid rgba(0,255,156,.22);padding:14px 16px;
+  margin-bottom:10px;transition:.25s;font-size:13px;}
+.crow:hover{border-color:var(--neon);background:rgba(0,255,156,.05);transform:translateX(4px);}
+.crow i{font-style:normal;color:var(--neon);}
+.avail{margin-top:18px;font-size:11px;color:var(--neon);letter-spacing:.14em;text-align:center;
+  animation:bl 1.6s steps(1) infinite;}
+@media(max-width:640px){
+  .stat4{grid-template-columns:repeat(2,1fr);}
+  .card{padding:22px 18px 28px;}
+  .chips{max-width:230px;}
+}
+
+/* ── toast ── */
+#toast{position:fixed;left:50%;bottom:110px;transform:translate(-50%,20px);z-index:120;opacity:0;
+  background:rgba(2,18,11,.95);border:1px solid var(--neon);color:var(--txt);padding:13px 22px;
+  font-size:12px;letter-spacing:.08em;transition:.4s;pointer-events:none;box-shadow:0 0 30px rgba(0,255,156,.3);}
+#toast.on{opacity:1;transform:translate(-50%,0);}
+
+#fallback{display:none;position:fixed;inset:0;z-index:60;align-items:center;justify-content:center;
+  text-align:center;padding:30px;color:var(--mut);font-size:13px;line-height:2;}
+body.no3d #fallback{display:flex;}
 </style>
 </head>
 <body>
 
-<canvas id="fluid-root"></canvas>
-<div id="custom-cursor"></div>
+<div id="scan"></div><div id="vig"></div>
 
-<div class="shell">
-
-<nav class="nav">
-  <div class="brand">H.D.G.M <span>//</span> CYBER OPS</div>
-  <div class="meta">
-    <span class="live">SIGNAL ACTIVE</span>
-    <span>SANTIAGO DE CUBA · CU</span>
-    <span>BUILD v.2025.07</span>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-top">
-    <div class="col">
-      <span>// OPERATOR FILE</span>
-      <span>HDM-001 · CLEARANCE L4</span>
-    </div>
-    <div class="col right">
-      <span>// COORDINATES</span>
-      <span>20.0247° N, 75.8267° W</span>
+<div id="hud">
+  <div class="hud-tl"><b>HERMES GARCÍA</b><span>pentester · cyber security · backend dev</span></div>
+  <div class="hud-tr">
+    <div class="chips">
+      <button class="chip" data-sec="perfil">PERFIL</button>
+      <button class="chip" data-sec="exp">EXPERIENCIA</button>
+      <button class="chip" data-sec="skills">SKILLS</button>
+      <button class="chip" data-sec="certs">CERTS</button>
+      <button class="chip" data-sec="contacto">CONTACTO</button>
+      <button class="chip" id="cvBtn">⬇ CV.pdf</button>
+      <button class="chip" id="sndBtn">🔊</button>
     </div>
   </div>
-
-  <div class="hero-main">
-    <div class="hero-eyebrow reveal-stagger">Pentester · Backend Architect · Systems Operator</div>
-    <h1 class="hero-title reveal-stagger">
-      <span class="line">HERMES</span>
-      <span class="line">DAVID <span class="accent">GARCÍA</span></span>
-      <span class="line">MATOS</span>
-    </h1>
-    <p class="hero-sub reveal-stagger">
-      Pentester, administrador de sistemas y desarrollador backend. <strong>Audito exchanges de criptomonedas</strong>, construyo microservicios resilientes al 99.9% de uptime y opero infraestructura crítica bajo presión. Complemento el perfil técnico con trading profesional — disciplina, riesgo controlado, ejecución precisa.
-    </p>
-    <div class="hero-cta reveal-stagger">
-      <a href="#contact" class="btn primary" data-cursor-hover>INICIAR CONTACTO <span class="arrow">→</span></a>
-      <a href="#operations" class="btn" data-cursor-hover>VER OPERACIONES</a>
-    </div>
-  </div>
-
-  <div class="hero-bottom">
-    <div class="metric">
-      <div class="label">// Uptime entregado</div>
-      <div class="value">99.9<span class="unit">%</span></div>
-    </div>
-    <div class="metric">
-      <div class="label">// Velocidad integración</div>
-      <div class="value">+40<span class="unit">%</span></div>
-    </div>
-    <div class="metric">
-      <div class="label">// Roles activos</div>
-      <div class="value">03<span class="unit">/CORE</span></div>
-    </div>
-    <div class="metric">
-      <div class="label">// Base operativa</div>
-      <div class="value">CU<span class="unit">/SCU</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- MANIFESTO -->
-<section class="manifesto" id="manifesto">
-  <div class="section-label"><span class="num">01 /</span> MANIFIESTO OPERATIVO</div>
-  <div class="manifesto-grid">
-    <div class="left">
-      <h2 class="section-title">No vendo certificados. <em>Entrego resultado.</em></h2>
-      <div class="manifesto-meta">
-        <div class="item">
-          <div class="label">// DISCIPLINA</div>
-          <div class="value">Trader + Hacker</div>
-        </div>
-        <div class="item">
-          <div class="label">// ENFOQUE</div>
-          <div class="value">Resiliente por diseño</div>
-        </div>
-        <div class="item">
-          <div class="label">// METODOLOGÍA</div>
-          <div class="value">Adversarial first</div>
-        </div>
-        <div class="item">
-          <div class="label">// ENTREGA</div>
-          <div class="value">Producción, no POC</div>
-        </div>
-      </div>
-    </div>
-    <div class="right" id="manifesto-text">Opero en la intersección entre la seguridad ofensiva y la ingeniería backend. Cada sistema que toco lo trato como infraestructura crítica: <em>auditable, contenerizado, observable</em>. No me pagan por escribir código — me pagan por mantener operaciones en línea cuando todo lo demás falla. El trading profesional me enseñó a tomar decisiones con información incompleta, a medir riesgo antes de ejecutar y a no confundir movimiento con progreso. La ciberseguridad me enseñó a pensar como el adversario antes de construir la defensa. Ambos mundos convergen en la misma verdad: <em>la disciplina supera al talento cuando el talento no es disciplinado</em>.</div>
-  </div>
-</section>
-
-<!-- CAPABILITIES -->
-<section class="capabilities" id="capabilities">
-  <div class="section-label"><span class="num">02 /</span> STACK OPERATIVO</div>
-  <div class="cap-grid">
-    <div class="cap-left">
-      <h2 class="section-title">Capacidades <em>desplegadas.</em></h2>
-      <p class="desc">Categorías de operación activa. Cada línea representa un dominio donde he entregado en producción, no solo prototipos. Lo que está aquí adentro ya aguantó tráfico real.</p>
-      <ul class="cap-list">
-        <li data-cursor-hover><span class="name">Pentesting</span><span class="meta">OFFSEC · 04Y</span></li>
-        <li data-cursor-hover><span class="name">Criptografía Avanzada</span><span class="meta">APPLIED · 03Y</span></li>
-        <li data-cursor-hover><span class="name">Seguridad en Redes</span><span class="meta">PERIMETER · 04Y</span></li>
-        <li data-cursor-hover><span class="name">Seguridad en la Nube</span><span class="meta">CLOUD · 03Y</span></li>
-        <li data-cursor-hover><span class="name">Backend Architecture</span><span class="meta">SERVERSIDE · 02Y</span></li>
-        <li data-cursor-hover><span class="name">Procesamiento de Datos</span><span class="meta">DATA · 02Y</span></li>
-      </ul>
-    </div>
-    <div class="ring-stage">
-      <div class="ring" id="ring"></div>
-      <div class="ring-center">
-        <div class="num">12 // DOMINIOS</div>
-        <div class="label">ACTIVE STACK</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- OPERATIONS -->
-<section class="operations" id="operations">
-  <div class="section-label"><span class="num">03 /</span> OPERACIONES DESPLEGADAS</div>
-  <h2 class="section-title">Experiencia <em>de campo.</em></h2>
-
-  <div class="op-entry">
-    <div class="op-left">
-      <div class="op-index">// OP. 02 — ACTUAL</div>
-      <div class="op-role">Desarrollador Backend</div>
-      <div class="op-company">DATYS · Santiago de Cuba</div>
-      <div class="op-meta">
-        <div class="item">
-          <div class="label">// Periodo</div>
-          <div class="value">SEP 2025 — ACTUAL</div>
-        </div>
-        <div class="item">
-          <div class="label">// Modalidad</div>
-          <div class="value">ON-SITE · FULL</div>
-        </div>
-      </div>
-    </div>
-    <div class="op-right">
-      <p class="op-brief">Lidero la definición de arquitectura e implementación de <strong>microservicios resilientes al 99.9% de uptime</strong> bajo carga y pruebas de estrés. Contenerización en Docker/Kubernetes, integración en pipelines de CI/CD con GitHub Actions y Jenkins.</p>
-      <ul class="op-list">
-        <li data-cursor-hover>
-          <span class="tag">[ARC]</span>
-          <span class="text">Lideré la definición de arquitectura e implementación de soluciones de microservicios resilientes, logrando un <strong>99.9% de uptime</strong> bajo carga y en pruebas de estrés.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[DEV]</span>
-          <span class="text">Implementé contenerización de aplicaciones para despliegue en <strong>Docker y Kubernetes</strong>, integrándolas correctamente en pipelines de CI/CD con GitHub Actions y Jenkins.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[GOV]</span>
-          <span class="text">Participé en el equipo de desarrollo del proyecto de Integración de Datos Nacionales, contribuyendo con soluciones integradas a la infraestructura y el ecosistema de microservicios existente.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[PRF]</span>
-          <span class="text">Realicé migraciones e implementé mejoras sobre soluciones existentes: <strong>+40% en velocidad de integración</strong> entre microservicios y +60% en experiencia de usuario.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[SCA]</span>
-          <span class="text">Desarrollé componentes de enriquecimiento de datos en Scala, integrados con Spring Boot, para aumentar velocidad en la transferencia y procesamiento de datos.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[QA]</span>
-          <span class="text">Escribo pruebas unitarias e integraciones automatizadas para garantizar la calidad del código en pipelines productivos.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[API]</span>
-          <span class="text">Diseño y desarrollo de APIs RESTful escalables siguiendo principios de arquitectura limpia.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[SEC]</span>
-          <span class="text">Gestión de autenticación, autorización y seguridad de endpoints backend en entornos de alta criticidad.</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="op-entry">
-    <div class="op-left">
-      <div class="op-index">// OP. 01 — CERRADA</div>
-      <div class="op-role">Especialista de Ciberseguridad</div>
-      <div class="op-company">Weex Exchange · Santiago de Cuba</div>
-      <div class="op-meta">
-        <div class="item">
-          <div class="label">// Periodo</div>
-          <div class="value">ENE 2023 — MAY 2024</div>
-        </div>
-        <div class="item">
-          <div class="label">// Modalidad</div>
-          <div class="value">REMOTE · FULL</div>
-        </div>
-      </div>
-    </div>
-    <div class="op-right">
-      <p class="op-brief">Auditoría de ciberseguridad sobre el exchange de criptomonedas <strong>Weex</strong>. Configuración de firewalls, IDS/IPS y herramientas de seguridad perimetral. Capacitación a usuarios y empleados de la comunidad hispanohablante.</p>
-      <ul class="op-list">
-        <li data-cursor-hover>
-          <span class="tag">[AUD]</span>
-          <span class="text">Realicé auditorías de ciberseguridad al exchange de criptomonedas <strong>Weex</strong>, identificando riesgos y proponiendo mejoras alineadas con buenas prácticas del sector.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[EDU]</span>
-          <span class="text">Impartí conferencias de ciberseguridad para usuarios de la comunidad hispanohablante de la plataforma, fomentando concienciación y uso seguro de criptomonedas.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[NET]</span>
-          <span class="text">Configuré, mantuve y optimicé <strong>firewalls, IDS/IPS</strong> y otras herramientas de seguridad perimetral.</span>
-        </li>
-        <li data-cursor-hover>
-          <span class="tag">[TRN]</span>
-          <span class="text">Capacité a empleados en concienciación de seguridad, phishing y buenas prácticas de ciberhigiene.</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- CREDENTIALS -->
-<section class="credentials" id="credentials">
-  <div class="section-label"><span class="num">04 /</span> CREDENCIALES</div>
-  <h2 class="section-title">Formación e <em>idiomas.</em></h2>
-  <div class="cred-grid">
-    <div class="cred-cell" data-cursor-hover>
-      <div class="label">// EDUCACIÓN</div>
-      <div class="value">Licenciado en Ciencias de la Computación</div>
-      <div class="sub">Universidad de Oriente<br>Santiago de Cuba</div>
-      <div class="year">→ GRADUADO <strong>2025</strong></div>
-    </div>
-    <div class="cred-cell" data-cursor-hover>
-      <div class="label">// IDIOMA 01</div>
-      <div class="value">Español</div>
-      <div class="sub">Nativo · Profesional</div>
-      <div class="year">→ L1 / <strong>C2</strong></div>
-    </div>
-    <div class="cred-cell" data-cursor-hover>
-      <div class="label">// IDIOMA 02</div>
-      <div class="value">English</div>
-      <div class="sub">Profesional técnico · Documentación</div>
-      <div class="year">→ L2 / <strong>B2+</strong></div>
-    </div>
-  </div>
-</section>
-
-<!-- STACK -->
-<section class="stack" id="stack">
-  <div class="stack-head">
-    <div class="section-label" style="margin-bottom:0;"><span class="num">05 /</span> ARSENAL TÉCNICO</div>
-    <div class="desc">// Stack verificado en producción</div>
-  </div>
-  <div class="stack-grid">
-    <div class="stack-cell" data-cursor-hover><div class="cat">// BACKEND</div><div class="name">Spring Boot</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// JVM</div><div class="name">Scala</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// ORQ</div><div class="name">Kubernetes</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// CONT</div><div class="name">Docker</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// CI/CD</div><div class="name">GitHub Actions</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// CI/CD</div><div class="name">Jenkins</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">Pentest Suite</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">IDS / IPS</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">Firewalls</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// SEC</div><div class="name">Criptografía</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// API</div><div class="name">RESTful</div></div>
-    <div class="stack-cell" data-cursor-hover><div class="cat">// DATA</div><div class="name">Enriquecimiento</div></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="contact-eyebrow">// CANAL DE COMUNICACIÓN ABIERTO</div>
-  <h2 class="contact-title">
-    <span class="line">¿Operación</span>
-    <span class="line"><span class="accent">crítica</span> que</span>
-    <span class="line">requiere operador?</span>
-  </h2>
-  <div class="contact-grid">
-    <div class="contact-channels">
-      <a href="mailto:cyberdarkdavids@gmail.com" class="contact-channel" data-cursor-hover>
-        <div class="left">
-          <span class="label">// CORREO</span>
-          <span class="value">cyberdarkdavids@gmail.com</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-      <a href="tel:+5354808774" class="contact-channel" data-cursor-hover>
-        <div class="left">
-          <span class="label">// TELÉFONO</span>
-          <span class="value">+53 5480 8774</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-      <a href="https://linkedin.com/in/hermes-david-garcia-matos-b2a" class="contact-channel" data-cursor-hover>
-        <div class="left">
-          <span class="label">// LINKEDIN</span>
-          <span class="value">/in/hermes-david-garcia-matos</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-      <a href="https://darkhater01.github.io" class="contact-channel" data-cursor-hover>
-        <div class="left">
-          <span class="label">// PORTAFOLIO</span>
-          <span class="value">darkhater01.github.io</span>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-    </div>
-    <div class="contact-side">
-      <div class="info-block">
-        <div class="label">// DISPONIBILIDAD</div>
-        <div class="value"><strong>Signal activa.</strong> Aceptando conversaciones para roles de ciberseguridad ofensiva, arquitectura backend y posiciones híbridas de seguridad / ingeniería.</div>
-      </div>
-      <div class="info-block">
-        <div class="label">// UBICACIÓN</div>
-        <div class="value">Santiago de Cuba, Cuba.<br>Remoto global · UTC-5 · On-site Caribe</div>
-      </div>
-      <div class="info-block">
-        <div class="label">// TIEMPO DE RESPUESTA</div>
-        <div class="value"><strong>&lt; 24h</strong> en horario laboral. Las operaciones urgentes se responden primero.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="left">
-    <div class="name">Hermes David García Matos</div>
-    <div>© 2025 · Operador Independiente</div>
-  </div>
-  <div class="right">
-    <div>BUILD <span class="ver">v.2025.07.30</span></div>
-    <div>CLEARANCE L4 · OPERATOR FILE HDM-001</div>
-  </div>
-</footer>
-
+  <div class="hud-bl"><b id="spd">0</b> km/h <span id="gear"></span></div>
+  <div class="hud-br"><b>WASD / flechas</b> — conducir<br><b>choca contra paneles</b> — abrir CV · <b>H</b> claxon · <b>M</b> sonido</div>
 </div>
 
-<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js'></script>
+<div id="pads">
+  <div class="pad"><button class="pbtn" data-k="left">◀</button><button class="pbtn" data-k="right">▶</button></div>
+  <div class="pad"><button class="pbtn" data-k="down">▼</button><button class="pbtn" data-k="up">▲</button></div>
+</div>
 
-<script type='importmap'>
-{ "imports": { "three": "https://unpkg.com/three@0.183/build/three.module.js" } }
-</script>
+<div id="intro">
+  <div class="term">
+    <div class="term-bar"><span class="tb"></span><span class="tb"></span><span class="tb"></span></div>
+    <div class="glitch">HERMES GARCÍA MATOS</div>
+    <div id="typer"></div>
+    <button id="startBtn">▶ INICIAR MISIÓN</button>
+    <p class="tnote">conduce el coche y embiste los paneles 3D para explorar mi CV — o usa el menú de arriba</p>
+  </div>
+</div>
 
+<div id="ov">
+  <div class="card">
+    <div class="card-top"><h2 id="ovTitle">//</h2><button id="ovClose">✕</button></div>
+    <div id="ovBody"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="fallback">Tu navegador no soporta WebGL.<br>Usa el menú superior derecho para explorar el CV igualmente.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// === LENIS SMOOTH SCROLL ===
-const lenis = new Lenis({
-  duration: 1.15,
-  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true
-});
-function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
-
-gsap.registerPlugin(ScrollTrigger);
-lenis.on('scroll', ScrollTrigger.update);
-gsap.ticker.add(time => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
-
-// Anchor smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const id = a.getAttribute('href');
-    if (id === '#' || !id || id.length < 2) return;
-    const target = document.querySelector(id);
-    if (target) {
-      e.preventDefault();
-      lenis.scrollTo(target, { offset: -80 });
-    }
-  });
-});
-
-// === CUSTOM CURSOR ===
-const cursor = document.getElementById('custom-cursor');
-const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-const target = { x: pos.x, y: pos.y };
-let hover = false;
-
-if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  window.addEventListener('mousemove', e => {
-    target.x = e.clientX;
-    target.y = e.clientY;
-  });
-
-  document.addEventListener('mouseover', e => {
-    const t = e.target;
-    hover = !!(t.closest('a, button, [data-cursor-hover]') || t.tagName === 'VIDEO');
-  });
-
-  (function cursorLoop() {
-    pos.x += (target.x - pos.x) * 0.18;
-    pos.y += (target.y - pos.y) * 0.18;
-    const s = hover ? 44 : 10;
-    cursor.style.transform = `translate(${pos.x - s/2}px, ${pos.y - s/2}px)`;
-    cursor.style.width = cursor.style.height = s + 'px';
-    cursor.style.opacity = hover ? 0.55 : 1;
-    requestAnimationFrame(cursorLoop);
-  })();
-}
-
-// === HERO 4-BEAT REVEAL ===
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('hero').classList.add('in');
-  }, 200);
-});
-
-// === SCRUB BLUR WORDS (MANIFESTO) ===
-document.fonts.ready.then(() => {
-  const textEl = document.getElementById('manifesto-text');
-  if (!textEl) return;
-
-  // Walk and wrap each word in a span, preserving <em> inheritance
-  const walk = (node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent;
-      if (!text || !text.trim()) return;
-      const parts = text.split(/(\s+)/);
-      const frag = document.createDocumentFragment();
-      parts.forEach(p => {
-        if (!p) return;
-        if (/^\s+$/.test(p)) {
-          frag.appendChild(document.createTextNode(p));
-        } else {
-          const span = document.createElement('span');
-          span.className = 'word';
-          span.textContent = p;
-          frag.appendChild(span);
-        }
-      });
-      node.parentNode.replaceChild(frag, node);
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      Array.from(node.childNodes).forEach(walk);
-    }
-  };
-  walk(textEl);
-
-  gsap.fromTo('#manifesto-text .word',
-    { opacity: 0.12, filter: 'blur(10px)' },
-    {
-      opacity: 1,
-      filter: 'blur(0px)',
-      stagger: 0.04,
-      ease: 'sine.out',
-      scrollTrigger: {
-        trigger: '#manifesto-text',
-        start: 'top 82%',
-        end: 'center 55%',
-        scrub: true
-      }
-    }
-  );
-});
-
-// === WORD RING ===
-const ringEl = document.getElementById('ring');
-const WORDS = [
-  'PENTESTING', 'CRYPTO', 'BACKEND', 'DEVOPS',
-  'KUBERNETES', 'SCALA', 'DOCKER', 'CLOUD-SEC',
-  'CI/CD', 'NETWORK', 'AUDIT', 'RESILIENCE'
-];
-const allWords = [...WORDS, ...WORDS];
-const step = 360 / allWords.length;
-const radius = 320;
-
-allWords.forEach((w, i) => {
-  const d = document.createElement('div');
-  d.className = 'ring-item';
-  d.style.transform = `rotateX(${i * step}deg) translateZ(${radius}px)`;
-  d.innerHTML = `<span>${w}</span>`;
-  ringEl.appendChild(d);
-});
-
-const rot = { v: 0 }, spd = { v: 0 };
-let cr = 0, cs = 0;
-
-gsap.to(rot, {
-  v: 720,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#capabilities',
-    start: 'top bottom',
-    end: 'bottom top',
-    scrub: 1,
-    onUpdate: s => { spd.v = s.getVelocity() * 0.0004; }
-  }
-});
-
-(function ringTick() {
-  requestAnimationFrame(ringTick);
-  cr += (rot.v - cr) * 0.08;
-  cs += (spd.v - cs) * 0.1;
-  spd.v *= 0.95;
-  const abs = Math.abs(cs);
-  const skew = Math.min(abs * 12, 10);
-  const sx = 1 + Math.min(abs * 0.2, 0.12);
-  ringEl.style.transform = `rotateX(${cr}deg)`;
-  ringEl.querySelectorAll('.ring-item').forEach(it => {
-    const bl = Math.min(abs * 1.5, 2);
-    it.style.filter = bl > 0.1 ? `blur(${bl}px)` : 'none';
-    const span = it.querySelector('span');
-    if (span) span.style.transform = `translate(-50%, -50%) skewX(${cs > 0 ? skew : -skew}deg) scaleX(${sx})`;
-  });
-})();
-
-// === REVEAL ON SCROLL ===
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('in');
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-</script>
-
-<script type="module">
-import * as THREE from 'three';
-
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isMobile = window.innerWidth < 768;
-
-const canvas = document.getElementById('fluid-root');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-const geom = new THREE.PlaneGeometry(2, 2);
-
-const simScale = isMobile ? 0.3 : 0.5;
-let simW = Math.floor(window.innerWidth * simScale);
-let simH = Math.floor(window.innerHeight * simScale);
-
-const rtOpts = {
-  type: THREE.HalfFloatType,
-  format: THREE.RGBAFormat,
-  minFilter: THREE.LinearFilter,
-  magFilter: THREE.LinearFilter,
-  wrapS: THREE.ClampToEdgeWrapping,
-  wrapT: THREE.ClampToEdgeWrapping
+/* ═══════════════ DATOS REALES (de tu CV) ═══════════════ */
+const DATA = {
+  quote: "La seguridad no es un producto, es un proceso continuo de mejora y adaptación.",
+  about: "Profesional Pentester, Administrador de Sistemas y Desarrollador Backend con experiencia en ciberseguridad, gestión de infraestructuras tecnológicas y desarrollo de soluciones server-side. Complemento mi perfil técnico con trayectoria como trader profesional: habilidades analíticas, decisiones bajo presión y orientación a resultados. Apasionado por la seguridad ofensiva, el análisis de datos y la arquitectura de microservicios escalables.",
+  why: "Integro seguridad en cada etapa del desarrollo para que los sistemas sean robustos desde su diseño. He liderado proyectos que mejoraron el rendimiento un 40% y la experiencia de usuario un 60%, e implementado pipelines CI/CD que garantizan despliegues confiables. Mis certificaciones en pentesting, hacking ético y análisis de logs demuestran compromiso con la excelencia técnica y la mejora continua.",
+  stats: [["99.9%","uptime en producción"],["+40%","velocidad de integración"],["+60%","experiencia de usuario"],["7","certificaciones"]],
+  experience: [
+    { role:"Desarrollador Backend", co:"DATYS", d:"sep 2025 — actualidad", bullets:[
+      "Lideré la arquitectura e implementación de microservicios resilientes: 99.9% de uptime bajo carga y pruebas de estrés.",
+      "Contenerización con Docker y Kubernetes, integrada en pipelines CI/CD con GitHub Actions y Jenkins.",
+      "Equipo de desarrollo del proyecto de Integración de Datos Nacionales: nuevas funcionalidades y mejoras de rendimiento.",
+      "Migraciones y mejoras: +40% velocidad de integración entre microservicios, +60% en experiencia de usuario.",
+      "Componentes de enriquecimiento de datos en Scala + Spring Boot para acelerar procesamiento de datos.",
+      "APIs RESTful escalables (arquitectura limpia), auth de endpoints, pruebas unitarias y de integración automatizadas."]},
+    { role:"Especialista de Ciberseguridad", co:"Weex Exchange", d:"2023 — may 2024", bullets:[
+      "Auditorías de ciberseguridad al exchange de criptomonedas: identificación de riesgos y mejoras según buenas prácticas del sector.",
+      "Conferencias de seguridad para la comunidad hispanohablante de la plataforma.",
+      "Configuración, mantenimiento y optimización de firewalls, IDS/IPS y seguridad perimetral.",
+      "Capacitación anti-phishing y concienciación de seguridad a empleados."]}
+  ],
+  skills: [
+    ["OFENSIVA · RED TEAM",["Escaneo de vulnerabilidades","Metasploit","Escalada de privilegios","Pentesting a redes","Game hacking","Hacking ético"]],
+    ["DEFENSA · BLUE TEAM",["Firewalls","IDS/IPS","Seguridad perimetral","Criptografía avanzada","Análisis de logs"]],
+    ["BACKEND",["Spring Boot","Scala","Java","APIs RESTful","Microservicios","Arquitectura limpia"]],
+    ["DEVOPS",["Docker","Kubernetes","GitHub Actions","Jenkins","CI/CD","Testing automatizado"]],
+    ["DATOS & ANÁLISIS",["Enriquecimiento de datos","Integración nacional","Trading · análisis cuantitativo"]]
+  ],
+  certs: [
+    ["Pentesting a Redes","Platzi · feb 2026"],
+    ["Pentesting con Metasploit","Platzi · feb 2026"],
+    ["Hacking: Escalada de Privilegios","Platzi · feb 2026"],
+    ["Introduction to Pentesting","Platzi · mar 2025"],
+    ["Hacking Ético","Platzi · mar 2025"],
+    ["Fundamentals of Game Hacking Development","Red Team Leaders · feb 2026"],
+    ["Foundations of Log Analysis for Cyber Defense","Red Team Leaders · feb 2026"]
+  ],
+  contact: [
+    ["✉","cyberdarkdavids@gmail.com","mailto:cyberdarkdavids@gmail.com"],
+    ["☎","+53 54808774","tel:+5354808774"],
+    ["◈","github.com/darkhater01","https://github.com/darkhater01"],
+    ["⌂","darkhater01.github.io","https://darkhater01.github.io"],
+    ["in","LinkedIn — Hermes David García Matos","https://www.linkedin.com/in/hermes-david-garcia-matos-b2a1102b5"]
+  ]
 };
 
-let rtA = new THREE.WebGLRenderTarget(simW, simH, rtOpts);
-let rtB = new THREE.WebGLRenderTarget(simW, simH, rtOpts);
+const SECTIONS = [
+  {id:"perfil",  label:"PERFIL",     sub:"whoami"},
+  {id:"exp",     label:"EXPERIENCIA",sub:"work --history"},
+  {id:"skills",  label:"SKILLS",     sub:"ar Instagramenal"},      // se sobreescribe abajo
+  {id:"certs",   label:"CERTS",      sub:"credentials --verify"},
+  {id:"contacto",label:"CONTACTO",   sub:"ping me"}
+];
+SECTIONS[2].sub = "arsenal -a";
 
-const simMat = new THREE.ShaderMaterial({
-  uniforms: {
-    uFluidTex: { value: null },
-    uResolution: { value: new THREE.Vector2(simW, simH) },
-    iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
-    uFluidDecay: { value: 0.985 },
-    uTrailLength: { value: 0.97 }
-  },
-  vertexShader: `varying vec2 v_uv; void main(){ v_uv = uv; gl_Position = vec4(position,1.0); }`,
-  fragmentShader: `
-    uniform sampler2D uFluidTex;
-    uniform vec2 uResolution;
-    uniform vec4 iMouse;
-    uniform float uFluidDecay;
-    uniform float uTrailLength;
-    varying vec2 v_uv;
-    vec3 dec(vec3 r){ return (r-.5)*.8; }
-    vec3 enc(vec3 s){ return s/.8+.5; }
-    void main(){
-      vec2 tx = 1.0/uResolution;
-      vec3 p = dec(texture2D(uFluidTex, v_uv).rgb);
-      vec2 vel = p.rg; float ink = p.b;
-      vec3 L = dec(texture2D(uFluidTex, v_uv-vec2(tx.x,0)).rgb);
-      vec3 R = dec(texture2D(uFluidTex, v_uv+vec2(tx.x,0)).rgb);
-      vec3 U = dec(texture2D(uFluidTex, v_uv+vec2(0,tx.y)).rgb);
-      vec3 D = dec(texture2D(uFluidTex, v_uv-vec2(0,tx.y)).rgb);
-      vel = mix(vel, (L.rg+R.rg+U.rg+D.rg)*.25, .28);
-      ink = mix(ink, (L.b+R.b+U.b+D.b)*.25, .28);
-      vec3 adv = dec(texture2D(uFluidTex, v_uv - vel*tx*1.2).rgb);
-      vel = mix(vel, adv.rg, .45);
-      ink = mix(ink, adv.b, .45);
-      vec2 mo = iMouse.xy - iMouse.zw;
-      float bm = exp(-pow(distance(v_uv*uResolution, iMouse.xy), 2.0)*2.2e-4);
-      vel += mo*bm*.03;
-      ink += bm*.09;
-      vel *= uFluidDecay;
-      ink *= uTrailLength;
-      gl_FragColor = vec4(enc(vec3(clamp(vel,-.4,.4), clamp(ink,-.4,.4))), 1.0);
+/* ═══════════════ INTRO TYPEWRITER ═══════════════ */
+const typerEl = document.getElementById("typer");
+const TLINES = [
+  ["$ whoami","p"],["hermes david garcía matos — santiago de cuba","o"],
+  ["$ cat rol.txt","p"],["pentester · cyber security specialist · backend developer","o"],
+  ["$ ./init_portfolio.sh --modo=3d","p"],["cargando mundo... OK. coche listo.","d"],
+  ["conduce con WASD y embiste los paneles para descifrar mi CV","d"]
+];
+let started=false, skipType=false;
+function typeAll(){
+  let li=0, ci=0, out=[];
+  function step(){
+    if(skipType){ // pintar todo de golpe
+      typerEl.innerHTML = TLINES.map(l=>`<div class="tline"><span class="${l[1]}">${l[0]}</span></div>`).join("");
+      return;
     }
-  `
-});
+    if(li>=TLINES.length){typerEl.classList.add("cursor-blink");return;}
+    const [txt,cls]=TLINES[li];
+    ci+= cls==="p"?1:2;
+    if(ci>=txt.length){ci=txt.length;li++;out.push(`<div class="tline"><span class="${cls}">${txt}</span></div>`);ci=0;}
+    typerEl.innerHTML = out.join("") + (li<TLINES.length?`<div class="tline"><span class="${TLINES[li][1]}">${TLINES[li][0].slice(0,ci)}</span></div>`:"");
+    setTimeout(step, cls==="p"?34:14);
+  }
+  step();
+}
+typeAll();
+document.getElementById("intro").addEventListener("click",e=>{ if(e.target.id!=="startBtn") skipType=true; });
 
-const displayMat = new THREE.ShaderMaterial({
-  uniforms: {
-    u_fluid: { value: null },
-    u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-    u_time: { value: 0 }
-  },
-  vertexShader: `varying vec2 v_uv; void main(){ v_uv = uv; gl_Position = vec4(position,1.0); }`,
-  fragmentShader: `
-    uniform sampler2D u_fluid;
-    uniform vec2 u_resolution;
-    uniform float u_time;
-    varying vec2 v_uv;
-    float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-    float n(vec2 p){
-      vec2 i = floor(p), f = fract(p);
-      float a = h(i), b = h(i+vec2(1,0)), c = h(i+vec2(0,1)), d = h(i+vec2(1,1));
-      vec2 u = f*f*(3.-2.*f);
-      return mix(a,b,u.x) + (c-a)*u.y*(1.-u.x) + (d-b)*u.x*u.y;
-    }
-    float fbm(vec2 p){
-      float s=0., a=.5, f=1.;
-      for(int i=0;i<6;i++){ s += n(p*f)*a; a*=.5; f*=2.; }
-      return s;
-    }
-    void main(){
-      vec3 fs = (texture2D(u_fluid, v_uv).rgb - .5) * .8;
-      vec2 uv = (v_uv + fs.rg*(.038+.18*fs.b))*2.-1.;
-      uv.x *= u_resolution.x / u_resolution.y;
-      float t = u_time*.18;
-      vec2 mv = vec2(fbm(uv*.5+t), fbm(uv*.5+t+2.));
-      float p = smoothstep(0., 1., fbm(uv + mv));
-      vec3 c1 = vec3(0.0, 0.0, 0.0);
-      vec3 c2 = vec3(0.06, 0.06, 0.075);
-      vec3 c3 = vec3(1.0, 0.42, 0.10);
-      vec3 col = mix(mix(c1, c2, p), c3, p*p*p * 0.5);
-      gl_FragColor = vec4(col, 1.0);
-    }
-  `
-});
-
-const simMesh = new THREE.Mesh(geom, simMat);
-const displayMesh = new THREE.Mesh(geom, displayMat);
-
-const mouse = { x: window.innerWidth / 2 * simScale, y: window.innerHeight / 2 * simScale, px: 0, py: 0 };
-window.addEventListener('mousemove', e => {
-  mouse.px = mouse.x;
-  mouse.py = mouse.y;
-  mouse.x = e.clientX * simScale;
-  mouse.y = (window.innerHeight - e.clientY) * simScale;
-});
-
-let visible = true;
-const observer = new IntersectionObserver(entries => {
-  visible = entries[0].isIntersecting;
-}, { threshold: 0 });
-observer.observe(canvas);
-
-window.addEventListener('resize', () => {
-  const w = window.innerWidth, h = window.innerHeight;
-  renderer.setSize(w, h);
-  displayMat.uniforms.u_resolution.value.set(w, h);
-  simW = Math.floor(w * simScale);
-  simH = Math.floor(h * simScale);
-  rtA.setSize(simW, simH);
-  rtB.setSize(simW, simH);
-  simMat.uniforms.uResolution.value.set(simW, simH);
-});
-
-const clock = new THREE.Clock();
-
-function render() {
-  requestAnimationFrame(render);
-  if (!visible || reducedMotion) return;
-
-  simMat.uniforms.iMouse.value.set(mouse.x, mouse.y, mouse.px, mouse.py);
-
-  simMat.uniforms.uFluidTex.value = rtA.texture;
-  scene.add(simMesh);
-  renderer.setRenderTarget(rtB);
-  renderer.render(scene, camera);
-  scene.remove(simMesh);
-
-  const tmp = rtA; rtA = rtB; rtB = tmp;
-
-  displayMat.uniforms.u_fluid.value = rtA.texture;
-  displayMat.uniforms.u_time.value = clock.getElapsedTime();
-  scene.add(displayMesh);
-  renderer.setRenderTarget(null);
-  renderer.render(scene, camera);
-  scene.remove(displayMesh);
-
-  mouse.px = mouse.x;
-  mouse.py = mouse.y;
+/* ═══════════════ AUDIO (motor + claxon) ═══════════════ */
+let actx=null, engOsc=null, engGain=null, engFil=null, muted=false;
+function initAudio(){
+  try{
+    actx = new (window.AudioContext||window.webkitAudioContext)();
+    engOsc = actx.createOscillator(); engOsc.type="sawtooth"; engOsc.frequency.value=55;
+    engFil = actx.createBiquadFilter(); engFil.type="lowpass"; engFil.frequency.value=340;
+    engGain = actx.createGain(); engGain.gain.value=0;
+    engOsc.connect(engFil); engFil.connect(engGain); engGain.connect(actx.destination);
+    engOsc.start();
+  }catch(e){}
+}
+function beep(f,dur,delay,vol){
+  if(!actx||muted)return;
+  const o=actx.createOscillator(),g=actx.createGain();
+  o.type="square";o.frequency.value=f;g.gain.value=0;
+  o.connect(g);g.connect(actx.destination);
+  const t=actx.currentTime+(delay||0);
+  g.gain.setValueAtTime(vol||.05,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.start(t);o.stop(t+dur+.02);
+}
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("on");
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),2600);
 }
 
-if (reducedMotion) {
-  displayMat.uniforms.u_time.value = 1.0;
-  displayMat.uniforms.u_fluid.value = rtA.texture;
-  scene.add(displayMesh);
-  renderer.setRenderTarget(null);
-  renderer.render(scene, camera);
-} else {
-  render();
+/* ═══════════════ CONTENIDO DE SECCIONES ═══════════════ */
+function renderSection(id){
+  if(id==="perfil")return `
+    <p class="quote">“${DATA.quote}”</p>
+    <p class="lead">${DATA.about}</p>
+    <div class="stat4">${DATA.stats.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join("")}</div>
+    <h3>// por qué yo</h3><p class="lead">${DATA.why}</p>
+    <h3>// educación</h3>
+    <p class="lead"><b style="color:var(--neon)">Licenciado en Ciencias de la Computación</b><br>Universidad de Oriente, Santiago de Cuba · 2025</p>
+    <p class="avail">▊ DISPONIBLE PARA CIBERSEGURIDAD / BACKEND — REMOTO</p>`;
+  if(id==="exp")return DATA.experience.map(x=>`
+    <div class="xp"><h4>${x.role}</h4><div class="co">${x.co} <i>· ${x.d}</i></div>
+    <ul>${x.bullets.map(b=>`<li>${b}</li>`).join("")}</ul></div>`).join("");
+  if(id==="skills")return DATA.skills.map(g=>`
+    <div class="sk"><b>[ ${g[0]} ]</b><div class="tags">${g[1].map(t=>`<span class="tag">${t}</span>`).join("")}</div></div>`).join("");
+  if(id==="certs")return DATA.certs.map(c=>`<div class="cert"><span style="color:var(--neon)">▸</span>${c[0]}<span>${c[1]}</span></div>`).join("")+
+    `<p class="tnote" style="margin-top:16px">// verificación: credenciales emitidas por Platzi y Red Team Leaders</p>`;
+  if(id==="contacto")return DATA.contact.map(c=>`
+    <a class="crow" href="${c[2]}" target="_blank" rel="noopener"><i>${c[0]}</i>${c[1]}</a>`).join("")+
+    `<p class="avail">▊ respuesta en &lt; 24h — ping me</p>`;
+  return "";
 }
+const ov=document.getElementById("ov"),ovT=document.getElementById("ovTitle"),ovB=document.getElementById("ovBody");
+let openCooldown=0;
+function openSection(id,viaHit){
+  const s=SECTIONS.find(s=>s.id===id);
+  ovT.textContent="// "+s.label; ovB.innerHTML=renderSection(id);
+  ov.classList.add("on"); speed=0;
+  if(viaHit)toast("[+] Panel descifrado: "+s.label);
+}
+function closeSection(){ov.classList.remove("on");openCooldown=performance.now()+900;}
+document.getElementById("ovClose").onclick=closeSection;
+ov.addEventListener("click",e=>{if(e.target===ov)closeSection();});
+document.querySelectorAll(".chip[data-sec]").forEach(b=>b.onclick=()=>openSection(b.dataset.sec));
+addEventListener("keydown",e=>{if(e.key==="Escape")closeSection();});
+
+/* ── CV imprimible (bonus para recruiters) ── */
+document.getElementById("cvBtn").onclick=()=>{
+  const w=window.open("","_blank");
+  if(!w){toast("Permite ventanas emergentes para descargar el CV");return;}
+  w.document.write(`<html><head><title>CV — Hermes García Matos</title><style>
+    body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;color:#222;line-height:1.55}
+    h1{margin:0;font-size:26px}h2{border-bottom:2px solid #222;padding-bottom:4px;margin-top:28px;font-size:16px}
+    .sub{color:#c0392b;font-weight:bold;font-size:13px}.m{font-size:12px;color:#555}
+    ul{margin:8px 0}li{font-size:13px;margin-bottom:4px}.tag{font-size:12px}
+    .tag b{display:inline-block}.x{margin-bottom:14px}.x b{font-size:14px}</style></head><body>
+    <h1>Hermes David García Matos</h1>
+    <p class="sub">Lic. Computer Science · Cyber Security Specialist · Penetration Tester · Back-end Developer</p>
+    <p class="m">Santiago de Cuba, Cuba · +53 54808774 · cyberdarkdavids@gmail.com · github.com/darkhater01 · darkhater01.github.io</p>
+    <p class="m"><i>"${DATA.quote}"</i></p>
+    <h2>Sobre mí</h2><p style="font-size:13px">${DATA.about}</p>
+    <h2>Experiencia</h2>
+    ${DATA.experience.map(x=>`<div class="x"><b>${x.role}</b> — ${x.co} <span class="m">(${x.d})</span><ul>${x.bullets.map(b=>`<li>${b}</li>`).join("")}</ul></div>`).join("")}
+    <h2>Educación</h2><p class="tag">Licenciado en Ciencias de la Computación — Universidad de Oriente, 2025</p>
+    <h2>Habilidades</h2>${DATA.skills.map(g=>`<p class="tag"><b>${g[0]}:</b> ${g[1].join(", ")}</p>`).join("")}
+    <h2>Certificaciones</h2><ul>${DATA.certs.map(c=>`<li>${c[0]} — ${c[1]}</li>`).join("")}</ul>
+    <script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+};
+
+/* ═══════════════ MUNDO 3D ═══════════════ */
+let scene,camera,renderer,car,clock;
+let speed=0,heading=0,steerVis=0,wheelSpin=0;
+const pos={x:0,z:-6};
+const keys={up:false,down:false,left:false,right:false};
+const panels=[],spinners=[],sprites3d=[];
+const V={fog:0x020604};
+
+function labelTexture(title,sub){
+  const c=document.createElement("canvas");c.width=1024;c.height=512;
+  const x=c.getContext("2d");
+  x.fillStyle="#03130c";x.fillRect(0,0,1024,512);
+  x.strokeStyle="#00ff9c";x.lineWidth=6;x.shadowColor="#00ff9c";x.shadowBlur=26;
+  x.strokeRect(18,18,988,476);x.shadowBlur=0;
+  x.fillStyle="#00ff9c";
+  [[22,22],[1002,22],[22,490],[1002,490]].forEach(p=>x.fillRect(p[0]-5,p[1]-5,10,10));
+  x.textAlign="center";x.textBaseline="middle";
+  x.shadowColor="#00ff9c";x.shadowBlur=34;x.fillStyle="#66ffc4";
+  x.font="800 108px Orbitron, monospace";x.fillText(title,512,225);
+  x.shadowBlur=0;x.fillStyle="#7dd7ae";x.font="500 38px 'JetBrains Mono', monospace";
+  x.fillText("// "+sub,512,345);
+  x.fillStyle="#00ff9c";x.fillRect(432,395,160,6);
+  const t=new THREE.CanvasTexture(c);t.anisotropy=4;return t;
+}
+function codeSpriteTexture(txt){
+  const c=document.createElement("canvas");c.width=640;c.height=140;
+  const x=c.getContext("2d");
+  x.font="700 52px 'JetBrains Mono', monospace";x.textAlign="center";x.textBaseline="middle";
+  x.shadowColor="#00ff9c";x.shadowBlur=18;x.fillStyle="#9cffd9";x.fillText(txt,320,70);
+  return new THREE.CanvasTexture(c);
+}
+function blobTexture(){
+  const c=document.createElement("canvas");c.width=c.height=128;
+  const x=c.getContext("2d");
+  const g=x.createRadialGradient(64,64,8,64,64,62);
+  g.addColorStop(0,"rgba(0,0,0,.6)");g.addColorStop(1,"rgba(0,0,0,0)");
+  x.fillStyle=g;x.fillRect(0,0,128,128);
+  return new THREE.CanvasTexture(c);
+}
+
+async function init3D(){
+  try{
+    await Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,1500))]);
+    scene=new THREE.Scene();
+    scene.background=new THREE.Color(V.fog);
+    scene.fog=new THREE.FogExp2(V.fog,0.016);
+    camera=new THREE.PerspectiveCamera(58,innerWidth/innerHeight,.1,400);
+    camera.position.set(0,14,-30);
+    renderer=new THREE.WebGLRenderer({antialias:true});
+    renderer.setSize(innerWidth,innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.toneMapping=THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure=1.15;
+    document.body.insertBefore(renderer.domElement,document.body.firstChild);
+  }catch(e){document.body.classList.add("no3d");return;}
+
+  /* luces */
+  scene.add(new THREE.HemisphereLight(0x9fffd9,0x02120a,.55));
+  const dir=new THREE.DirectionalLight(0xbfffdd,.45);dir.position.set(30,50,20);scene.add(dir);
+
+  /* suelo + rejilla */
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(400,400),
+    new THREE.MeshStandardMaterial({color:0x020805,roughness:1,metalness:0}));
+  ground.rotation.x=-Math.PI/2;ground.position.y=-.05;scene.add(ground);
+  const grid=new THREE.GridHelper(340,85,0x00ff9c,0x0b3a26);
+  grid.material.transparent=true;grid.material.opacity=.33;scene.add(grid);
+
+  /* estrellas */
+  const sg=new THREE.BufferGeometry(),sp=[];
+  for(let i=0;i<900;i++){const a=Math.random()*Math.PI*2,r=150+Math.random()*50;
+    sp.push(Math.cos(a)*r,10+Math.random()*120,Math.sin(a)*r);}
+  sg.setAttribute("position",new THREE.Float32BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0x8affd0,size:1.1,transparent:true,opacity:.75,fog:false})));
+
+  /* paneles (con choque) */
+  const R=30;
+  SECTIONS.forEach((s,i)=>{
+    const a=(i/SECTIONS.length)*Math.PI*2;
+    const g=new THREE.Group();
+    g.position.set(Math.sin(a)*R,0,Math.cos(a)*R);
+    g.lookAt(0,2.6,0);
+    const box=new THREE.Mesh(new THREE.BoxGeometry(8.8,4.6,.4),
+      new THREE.MeshStandardMaterial({color:0x04140c,emissive:0x022316,roughness:.8,metalness:.3}));
+    g.add(box);
+    const face=new THREE.Mesh(new THREE.PlaneGeometry(8.4,4.2),
+      new THREE.MeshBasicMaterial({map:labelTexture(s.label,s.sub)}));
+    face.position.z=.22;g.add(face);
+    const edges=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(9,4.8,.5)),
+      new THREE.LineBasicMaterial({color:0x00ff9c,transparent:true,opacity:.85}));
+    g.add(edges);
+    [-3.4,3.4].forEach(lx=>{
+      const leg=new THREE.Mesh(new THREE.BoxGeometry(.3,2.7,.3),
+        new THREE.MeshStandardMaterial({color:0x062015,roughness:.9}));
+      leg.position.set(lx,-2.2,0);g.add(leg);
+    });
+    const pl=new THREE.PointLight(0x00ff9c,.6,17);pl.position.set(0,4.5,2);g.add(pl);
+    scene.add(g);
+    panels.push({g,x:g.position.x,z:g.position.z,rot:g.rotation.y,hw:5.4,hd:1.5,id:s.id});
+  });
+
+  /* decoración: cristales de datos */
+  for(let i=0;i<18;i++){
+    const a=Math.random()*Math.PI*2,r=44+Math.random()*80;
+    const m=new THREE.Mesh(new THREE.OctahedronGeometry(.7+Math.random()*1.5),
+      new THREE.MeshStandardMaterial({color:0x03271a,emissive:0x024430,roughness:.35,metalness:.7,
+        transparent:true,opacity:.9}));
+    m.position.set(Math.cos(a)*r,.8+Math.random()*2,Math.sin(a)*r);
+    m.rotation.set(Math.random()*3,Math.random()*3,0);
+    scene.add(m);spinners.push(m);
+  }
+
+  /* sprites de código flotando */
+  const CODES=["nmap -sS -p-","msfconsole -q","sudo rm -rf /miedo","99.9% uptime","Scala + Spring",
+    "docker compose up","0x48 0x41 0x43 0x4B","kctl get pods","git push --force-with-love","ping hermes.dev"];
+  CODES.forEach((t,i)=>{
+    const sp2=new THREE.Sprite(new THREE.SpriteMaterial({map:codeSpriteTexture(t),transparent:true,opacity:.65,depthWrite:false}));
+    const a=Math.random()*Math.PI*2,r=20+Math.random()*55;
+    sp2.position.set(Math.cos(a)*r,5+Math.random()*8,Math.sin(a)*r);
+    sp2.scale.set(7.5,1.65,1);
+    sp2.userData={y:sp2.position.y,ph:i*1.3};
+    scene.add(sp2);sprites3d.push(sp2);
+  });
+
+  /* ── coche ── */
+  car=new THREE.Group();
+  const mBody=new THREE.MeshStandardMaterial({color:0x0d1512,roughness:.4,metalness:.6,emissive:0x00150c});
+  const body=new THREE.Mesh(new THREE.BoxGeometry(2.2,.55,4.4),mBody);body.position.y=.55;car.add(body);
+  const stripe=new THREE.Mesh(new THREE.BoxGeometry(.5,.06,4.42),
+    new THREE.MeshStandardMaterial({color:0x00ff9c,emissive:0x00ff9c,emissiveIntensity:.9}));
+  stripe.position.y=.85;car.add(stripe);
+  const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.7,.5,2),
+    new THREE.MeshStandardMaterial({color:0x06231a,roughness:.15,metalness:.9,emissive:0x013425}));
+  cabin.position.set(0,1.05,-.25);car.add(cabin);
+  const hl=new THREE.MeshBasicMaterial({color:0xeafff4});
+  const tl=new THREE.MeshBasicMaterial({color:0xff2e5f});
+  [-0.72,0.72].forEach(lx=>{
+    const h=new THREE.Mesh(new THREE.BoxGeometry(.5,.14,.08),hl);h.position.set(lx,.62,2.21);car.add(h);
+    const t2=new THREE.Mesh(new THREE.BoxGeometry(.5,.14,.08),tl);t2.position.set(lx,.62,-2.21);car.add(t2);
+  });
+  const wg=new THREE.CylinderGeometry(.42,.42,.34,14);wg.rotateZ(Math.PI/2);
+  const wm=new THREE.MeshStandardMaterial({color:0x0a0a0a,roughness:.9});
+  car.userData.wheels=[];car.userData.pivots=[];
+  [[1.05,1.45],[-1.05,1.45],[1.05,-1.45],[-1.05,-1.45]].forEach(([lx,lz],i)=>{
+    const pivot=new THREE.Group();pivot.position.set(lx,.42,lz);
+    const w=new THREE.Mesh(wg,wm);pivot.add(w);car.add(pivot);
+    car.userData.wheels.push(w);
+    if(i<2)car.userData.pivots.push(pivot);
+  });
+  const spot=new THREE.SpotLight(0xbfffe0,1.5,45,.55,.5);
+  spot.position.set(0,1.1,2);car.add(spot);
+  spot.target.position.set(0,0,16);car.add(spot.target);
+  const under=new THREE.PointLight(0x00ff9c,.9,7);under.position.y=.35;car.add(under);
+  const blob=new THREE.Mesh(new THREE.CircleGeometry(2,20),
+    new THREE.MeshBasicMaterial({map:blobTexture(),transparent:true,depthWrite:false}));
+  blob.rotation.x=-Math.PI/2;blob.position.y=.02;car.add(blob);
+  car.position.set(pos.x,0,pos.z);
+  scene.add(car);
+
+  clock=new THREE.Clock();
+  animate();
+}
+
+/* ── input ── */
+const KMAP={arrowup:"up",w:"up",arrowdown:"down",s:"down",arrowleft:"left",a:"left",arrowright:"right",d:"right"};
+addEventListener("keydown",e=>{
+  const k=KMAP[e.key.toLowerCase()];
+  if(k){keys[k]=true;e.preventDefault();}
+  if(e.key.toLowerCase()==="m")toggleSound();
+  if(e.key.toLowerCase()==="h"&&started){beep(392,.12,0,.06);beep(523,.16,.13,.06);toast("[CLAXON] ¡Contrátame! 📯");}
+});
+addEventListener("keyup",e=>{const k=KMAP[e.key.toLowerCase()];if(k)keys[k]=false;});
+document.querySelectorAll(".pbtn").forEach(b=>{
+  const k=b.dataset.k;
+  const on=e=>{e.preventDefault();keys[k]=true;};
+  const off=e=>{e.preventDefault();keys[k]=false;};
+  b.addEventListener("pointerdown",on);
+  b.addEventListener("pointerup",off);
+  b.addEventListener("pointerleave",off);
+  b.addEventListener("pointercancel",off);
+});
+
+function toggleSound(){
+  muted=!muted;
+  document.getElementById("sndBtn").textContent=muted?"🔇":"🔊";
+}
+document.getElementById("sndBtn").onclick=toggleSound;
+
+/* ── inicio ── */
+document.getElementById("startBtn").onclick=()=>{
+  if(started)return;started=true;
+  document.getElementById("intro").classList.add("off");
+  initAudio();
+  beep(523,.09,0,.05);beep(659,.09,.1,.05);beep(784,.14,.2,.05);
+  setTimeout(()=>toast("[+] Conduce y EMBISTE los paneles ⚡  ·  [H] claxon"),900);
+};
+
+/* ── bucle ── */
+const spdEl=document.getElementById("spd"),gearEl=document.getElementById("gear");
+let camT=new THREE.Vector3(),camP=new THREE.Vector3();
+function animate(){
+  requestAnimationFrame(animate);
+  const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
+
+  /* física arcade del coche */
+  const drive=started&&!ov.classList.contains("on");
+  const up=drive&&keys.up, down=drive&&keys.down;
+  if(up)speed+=30*dt;
+  else if(down)speed-= (speed>1?42:16)*dt;
+  speed-=speed*1.15*dt;
+  speed=Math.max(-9,Math.min(26,speed));
+  if(!up&&!down&&Math.abs(speed)<.4)speed=0;
+
+  const sTarget=drive?((keys.left?1:0)-(keys.right?1:0)):0;
+  steerVis+=(sTarget-steerVis)*(1-Math.pow(.0001,dt));
+  heading+=steerVis*dt*2.2*Math.min(1,Math.abs(speed)/9)*(speed<0?-1:1);
+  pos.x+=Math.sin(heading)*speed*dt;
+  pos.z+=Math.cos(heading)*speed*dt;
+
+  /* límites del mundo */
+  const rr=Math.hypot(pos.x,pos.z);
+  if(rr>138){pos.x*=138/rr;pos.z*=138/rr;speed*=.5;}
+
+  car.position.set(pos.x,0,pos.z);
+  car.rotation.y=heading;
+  wheelSpin+=speed*dt/.42;
+  car.userData.wheels.forEach(w=>w.rotation.x=wheelSpin);
+  car.userData.pivots.forEach(p=>p.rotation.y=steerVis*.45);
+
+  /* colisiones con paneles */
+  if(performance.now()>openCooldown){
+    for(const P of panels){
+      const dx=pos.x-P.x,dz=pos.z-P.z;
+      const c=Math.cos(P.rot),s=Math.sin(P.rot);
+      const lx=dx*c+dz*s, lz=-dx*s+dz*c;
+      const cx=Math.max(-P.hw,Math.min(P.hw,lx));
+      const cz=Math.max(-P.hd,Math.min(P.hd,lz));
+      let ddx=lx-cx,ddz=lz-cz,d2=ddx*ddx+ddz*ddz;
+      const r=1.35;
+      if(d2<r*r){
+        let px,pz;
+        if(d2>1e-6){const d=Math.sqrt(d2),k=(r-d)/d;px=ddx*k;pz=ddz*k;}
+        else{ // dentro: empujar por eje más corto
+          const pX=P.hw-Math.abs(lx),pZ=P.hd-Math.abs(lz);
+          if(pX<pZ){px=(lx>0?pX+r:-pX-r);pz=0;}else{px=0;pz=(lz>0?pZ+r:-pZ-r);}
+        }
+        const wx=px*c-pz*s, wz=px*s+pz*c;
+        pos.x+=wx;pos.z+=wz;
+        speed*=-.35;
+        if(Math.abs(speed)>.4||true){
+          openCooldown=performance.now()+1100;
+          if(started)openSection(P.id,true);
+        }
+        break;
+      }
+    }
+  }
+
+  /* cámara persecución */
+  const fwd={x:Math.sin(heading),z:Math.cos(heading)};
+  camP.set(pos.x-fwd.x*9,4.6,pos.z-fwd.z*9);
+  camT.set(pos.x+fwd.x*4,1.2,pos.z+fwd.z*4);
+  if(!started){ // órbita cinematográfica durante la intro
+    const a=t*.12;
+    camP.set(Math.sin(a)*30,11,Math.cos(a)*30);camT.set(0,2,0);
+  }
+  const k=1-Math.pow(.001,dt);
+  camera.position.lerp(camP,k);
+  camera.lookAt(camT);
+
+  /* decoración viva */
+  spinners.forEach((m,i)=>{m.rotation.y+=dt*.5;m.rotation.x+=dt*.2;m.position.y+=Math.sin(t+i)*.004;});
+  sprites3d.forEach(sp=>{sp.position.y=sp.userData.y+Math.sin(t*.8+sp.userData.ph)*.5;});
+
+  /* HUD + motor */
+  const kmh=Math.abs(speed)*7;
+  spdEl.textContent=kmh.toFixed(0);
+  gearEl.textContent=speed<-.5?" [R]":"";
+  if(engGain&&!muted&&started){
+    engGain.gain.value=ov.classList.contains("on")?0:(.012+kmh*.0009);
+    engOsc.frequency.value=52+kmh*4.2;
+  }else if(engGain){engGain.gain.value=0;}
+
+  renderer.render(scene,camera);
+}
+
+addEventListener("resize",()=>{
+  if(!renderer)return;
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+init3D();
 </script>
-
 </body>
 </html>
